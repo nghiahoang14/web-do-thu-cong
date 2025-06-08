@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 
 import "../../globals.css";
@@ -6,12 +5,12 @@ import "../../globals.css";
 
 
 export const metadata: Metadata = {
-  title: "Login",
+  title: "Combo",
   description: "Web bán hàng thủ công",
 };
 
-export default function LoginPage() {
+export default function CategoryPage() {
   return (
-   <h1 className="text-[38px] font-[700]">Login</h1>
+   <h1 className="text-[38px] font-[700]">Category</h1>
   );
 }

@@ -1,6 +1,9 @@
 import Link from "next/link"
-import { Search } from "../Search/Search"
+
 import { CartIcon } from "../CartIcon/CartIcon"
+import { Login } from "../Login/Login"
+import { Register } from "../Register/Register"
+import { Logo } from "../Logo/Logo"
 
 
 export const Sider = ()=>{
@@ -9,9 +12,7 @@ export const Sider = ()=>{
         <div className="w-[100vw] fixed z-999 h-[88px] bg-[#efedeb] shadow-md  ">
             <div className="container mx-auto h-full">
                 <div className="flex items-center justify-between h-full">
-                    <Link href="/">
-                    <div className="logo text-[30px] font-[700]">Temp<span className="text-[#0d6efd]">i</span></div>
-                    </Link>
+                   <Logo/>
                     <nav className="">
                         <ul className="flex items-center justify-between gap-[20px]">
                             <li className="">
@@ -26,30 +27,36 @@ export const Sider = ()=>{
                             </li>
                              <li className="">
                                 <Link href="/">
-                                 <div className="hover:font-bold transition-all "> Combo</div>
+                                 <div className="hover:font-bold transition-all "> Danh mục</div>
                                 </Link>
                             </li>
                              <li className="">
-                                <Link href="/">
+                                <Link href="Blog">
                                  <div className="hover:font-bold transition-all ">Blog</div>
                                 </Link>
                             </li>
                             <li className="">
-                                <Link href="/">
+                                <Link href="AboutUs">
                                  <div className="hover:font-bold transition-all ">About Us</div>
                                 </Link>
                             </li>
                             <li className="">
-                                <Link href="/">
-                                 <div className="hover:font-bold transition-all ">New Product</div>
+                                <Link href="NewProduct">
+                                 <div className="hover:font-bold transition-all ">Sản phẩm mới</div>
                                 </Link>
                             </li>
                             
                         </ul>
                     </nav>
-                    <div className="flex items-center gap-[15px]">
+                    <div className="flex items-center gap-[20px]">
                         {/* <Search/> */}
                         <CartIcon/>
+                        <div className="flex items-center gap-[20px]">
+                          <Login/>
+                          <Register/>
+
+                        </div>
+                        
                     </div>
                 </div>
                 
