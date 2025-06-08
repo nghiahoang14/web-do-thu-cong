@@ -1,8 +1,10 @@
+import { Title } from "../Title/Title"
+
 export const Section1 = ()=>{
     return (
         <>
         <div className="">
-            <h3 className="text-[25px] font-[500] text-center mb-[25px]">TÔ MÀU CHO CUỘC SỐNG</h3>
+            <Title title="TÔ MÀU CHO CUỘC SỐNG"/>
             <div className="flex items-center justify-center mt-[15px] gap-[30px]">
                 <div className="">
                    <div className="mb-[15px] w-[240px] h-[240px] truncate aspect-ratio rounded-[50%]">

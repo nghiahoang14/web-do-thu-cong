@@ -1,16 +1,24 @@
-import type { Metadata } from "next";
+"use client"
 
 import "../../globals.css";
+import { ProductList } from "@/app/components/Products/ProductList";
+import { Title } from "@/app/components/Title/Title";
+import { Filter } from "@/app/components/Filter/Filter";
+import { useState } from "react";
 
 
 
-export const metadata: Metadata = {
-  title: "New Product",
-  description: "Web bán hàng thủ công",
-};
 
 export default function NewProductPage() {
+  const [sortOption, setSortOption] = useState("default");
   return (
-   <h1 className="text-[38px] font-[700]">Shop</h1>
+   <div className="">
+           <Title title="Sản phẩm mới" />
+           <div className="flex justify-end">
+             <Filter onSortChange={setSortOption}/>
+           </div>
+           <ProductList  filterType="new" href="" className="" sortOption={sortOption} />
+          
+         </div>
   );
 }
