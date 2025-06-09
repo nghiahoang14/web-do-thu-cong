@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import "../../globals.css";
-import { Blog } from "@/app/components/Blog/Blog";
-import { Title } from "@/app/components/Title/Title";
+import "../../../globals.css";
+import { Blog } from "@/app/components/Client//Blog/Blog";
+import { Title } from "@/app/components/Client/Title/Title";
 
 
 

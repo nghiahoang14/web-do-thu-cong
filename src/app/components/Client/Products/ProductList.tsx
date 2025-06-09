@@ -37,6 +37,7 @@ export const ProductList = (props:{filterType:string,href:string, className:stri
       .get<{ data: Product[] }>("http://localhost:3001/products")
       .then((res) => {
         let data = res.data.data;
+        console.log(res);
        if (filterType === "new") {
         const now = new Date();
         data = data.filter((p: Product) => {
@@ -44,6 +45,12 @@ export const ProductList = (props:{filterType:string,href:string, className:stri
           const days = (now.getTime() - createdAt.getTime()) / (1000 * 3600 * 24);
           return days <= 7;
         });
+      }
+      if(filterType === "best"){
+        data=data.filter((p:Product)=>{
+           const count  = p.rating.count;
+           return count >=1000;
+        })
       }
       if(sortOption==="asc"){
         data = data.sort((a,b)=>a.price-b.price);

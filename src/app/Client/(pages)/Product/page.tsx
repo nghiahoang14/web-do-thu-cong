@@ -1,10 +1,10 @@
 "use client"
 
-import "../../globals.css";
-import { ProductList } from "@/app/components/Products/ProductList";
-import { Navigator } from "@/app/components/Navigator/Navigator";
-import { Filter } from "@/app/components/Filter/Filter";
-import { Title } from "@/app/components/Title/Title";
+import "../../../globals.css";
+import { ProductList } from "@/app/components/Client/Products/ProductList";
+
+import { Filter } from "@/app/components/Client/Filter/Filter";
+import { Title } from "@/app/components/Client/Title/Title";
 import { useState } from "react";
 
 

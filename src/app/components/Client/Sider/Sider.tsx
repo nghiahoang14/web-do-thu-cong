@@ -21,7 +21,7 @@ export const Sider = ()=>{
                                 </Link>
                             </li>
                              <li className="">
-                                <Link href="Product">
+                                <Link href="/Client/Product">
                                  <div className="hover:font-bold transition-all " >Sản phẩm</div>
                                 </Link>
                             </li>
@@ -31,17 +31,17 @@ export const Sider = ()=>{
                                 </Link>
                             </li>
                              <li className="">
-                                <Link href="Blog">
+                                <Link href="/Client/Blog">
                                  <div className="hover:font-bold transition-all ">Blog</div>
                                 </Link>
                             </li>
                             <li className="">
-                                <Link href="AboutUs">
+                                <Link href="/Client/AboutUs">
                                  <div className="hover:font-bold transition-all ">About Us</div>
                                 </Link>
                             </li>
                             <li className="">
-                                <Link href="NewProduct">
+                                <Link href="/Client/NewProduct">
                                  <div className="hover:font-bold transition-all ">Sản phẩm mới</div>
                                 </Link>
                             </li>

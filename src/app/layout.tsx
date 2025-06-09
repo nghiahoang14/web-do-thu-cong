@@ -1,6 +1,6 @@
-import { Footer } from "./components/Footer/Footer";
-import { Search } from "./components/Search/Search";
-import { Sider } from "./components/Sider/Sider";
+import { Footer } from "./components/Client/Footer/Footer";
+import { Search } from "./components/Client/Search/Search";
+import { Sider } from "./components/Client/Sider/Sider";
 import "./globals.css";
 import type { Metadata } from "next";
 

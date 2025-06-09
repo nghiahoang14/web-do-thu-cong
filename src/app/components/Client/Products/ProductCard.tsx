@@ -14,7 +14,7 @@ export const ProductCard = (props: { item: any }) => {
               className="w-full h-full object-cover"
             />
           </div>
-          <Link href={`/products/${item._id}`}>
+          <Link href={`/Client/Product/${item._id}`}>
           <h4 className="font-[600] text-[18px]  my-[10px] line-clamp-1">
             {item.title}
           </h4>

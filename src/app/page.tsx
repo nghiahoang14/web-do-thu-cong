@@ -1,12 +1,12 @@
 "use client"
-import { CategoryList } from "./components/Category/CategoryList";
-import { Collaborator } from "./components/Collaborator/Collaborator";
-import { Map } from "./components/Map/Map";
-import { ProductList } from "./components/Products/ProductList";
-import { Paginations } from "./components/Paginations/Paginations";
-import { Section1 } from "./components/Section1/Section1";
+import { CategoryList } from "./components/Client/Category/CategoryList";
+import { Collaborator } from "./components/Client/Collaborator/Collaborator";
+import { Map } from "./components/Client/Map/Map";
+import { ProductList } from "./components/Client/Products/ProductList";
+import { Paginations } from "./components/Client/Paginations/Paginations";
+import { Section1 } from "./components/Client/Section1/Section1";
 import "./globals.css"
-import { Title } from "./components/Title/Title";
+import { Title } from "./components/Client/Title/Title";
 
 
 
@@ -33,7 +33,7 @@ export default function Home() {
       </div>
      <div className="">
       <Title title="Sản phẩm mới" />
-       <ProductList  filterType="new" href="/NewProduct" className="hidden" sortOption=""/>
+       <ProductList  filterType="new" href="Client/NewProduct" className="hidden" sortOption=""/>
      </div>
       <CategoryList/>
       <Collaborator/>

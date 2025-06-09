@@ -40,17 +40,18 @@ export const Blog = ()=>{
         <>
         <div className="mt-[50px] flex gap-[50px] ">
         <div>
-            <BlogItem/>
-            <BlogItem/>
-            <BlogItem/>
-            <BlogItem/>
-            <BlogItem/>
+            {posts.map((post)=>(
+                <BlogItem key={post.id} post={post} isDetail={false}/>
+            ))}
+            
         </div>
         <div className="">
             <h3 className="font-[600] text-[20px] mb-[25px]">Bài viết mới nhất</h3>
-            <BlogItemNew/>
-            <BlogItemNew/>
-            <BlogItemNew/>
+            {posts.slice(0,2).map((post)=>(
+                <BlogItemNew key={post.id} post={post}/>
+            ))}
+           
+           
         </div>
         </div>
         </>
