@@ -26,8 +26,8 @@ export interface Product {
 const items_page =12;
 
 
-export const ProductList = (props:{filterType:string,href:string, className:string,sortOption: string}) => {
-  const {filterType,href,className,sortOption}=props;
+export const ProductList = (props:{filterType:string,href:string, className:string,sortOption: string,showMore:boolean}) => {
+  const {filterType,href,className,sortOption,showMore}=props;
   const [currentPage,setCurrentPage]=useState(1);
   const [products, SetProducts] = useState<Product[]>([]);
   
@@ -89,7 +89,8 @@ export const ProductList = (props:{filterType:string,href:string, className:stri
             ))}
           </div>
         )}
-       <More href ={href} />
+        {showMore &&(<More href ={href} title="Xem thêm"/>)}
+       
        <Navigator currentPage={currentPage}  totalPages={totalPages}
   onPageChange={setCurrentPage} className={className}/>
       

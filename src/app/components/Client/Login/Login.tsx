@@ -1,13 +1,19 @@
 "use client";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { Logo } from "../Logo/Logo";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "@/redux/authSlice";
+import { RootState } from "@/redux/store";
 
 export const Login = () => {
   const [showModal, setShowModal] = useState(false);
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
+    const user = useSelector((state: RootState) => state.auth.user);
+  const dispatch = useDispatch();
+  if (user) return null;
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
@@ -21,10 +27,11 @@ export const Login = () => {
         email,
         password,
       })
-       const { token, user } = res.data;
-
+       const {  user } = res.data;
+       console.log(JSON.stringify(user));
+  dispatch(login(user));
     
-    localStorage.setItem("token", token);
+  
       alert("Đăng nhập thành công");
       handleCloseModal();
      }
@@ -33,14 +40,18 @@ export const Login = () => {
     alert("Đăng nhập thất bại")
   }
   }
+
   return (
     <>
-      <button
+    
+   <button
         className="   hover:font-bold transition-all cursor-pointer"
         onClick={handleShowModal}
       >
         Login
       </button>
+   
+   
       {showModal && (
         <div
           className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 backdrop-blur-sm"

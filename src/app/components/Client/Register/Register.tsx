@@ -3,11 +3,18 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import axios from "axios";
 import { Logo } from "../Logo/Logo";
+import {  useSelector } from "react-redux";
+
+import { RootState } from "@/redux/store";
 export const Register =()=>{
     const [showModal, setShowModal] = useState(false);
     const [email,setEmail]= useState("");
     const [password,setPassword]= useState("");
     const [confirmPassword,setConfirmPassword]= useState("");
+    const user = useSelector((state: RootState) => state.auth.user);
+  
+
+  if (user) return null;
   const handleShowModal = () => {
     setShowModal(!showModal);
   };

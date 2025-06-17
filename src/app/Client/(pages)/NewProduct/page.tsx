@@ -17,7 +17,7 @@ export default function NewProductPage() {
            <div className="flex justify-end">
              <Filter onSortChange={setSortOption}/>
            </div>
-           <ProductList  filterType="new" href="" className="" sortOption={sortOption} />
+           <ProductList  filterType="new" href="" className="" sortOption={sortOption} showMore={false} />
           
          </div>
   );

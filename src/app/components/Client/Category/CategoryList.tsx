@@ -8,9 +8,11 @@ export interface Category{
     description:string,
     parent:string,
 }
-export const CategoryList = ()=>{
+export const CategoryList = (props:{limit?:number})=>{
+  const {limit}=props;
    const [category, SetCategory] = useState<Category[]>([]);
      const [load, setLoad] = useState<Boolean>(true);
+     
    useEffect(()=>{
       axios.get<{data:Category[]}>("http://localhost:3001/category")
       .then((res)=>{
@@ -27,16 +29,18 @@ export const CategoryList = ()=>{
         setLoad(false);
       });
    },[])
+   const displayedCategories = limit ? category.slice(0, limit) : category;
     return (
         <>
-        <div className="">
+        <div className="my-[40px]">
             <Title title="Danh mục"/>
             <div className="grid grid-cols-5  gap-x-[25px] gap-y-[20px] mt-[15px]">
-                {category.map((item,index)=>(
+                {displayedCategories.map((item,index)=>(
                      <Category key={index} item={item} />
                 ))}
             </div>
-            <More href="/Client/Category"/>
+            {!limit&& (<More href="/Client/Category" title="Xem thêm"/>)}
+          
         </div>
         </>
     )

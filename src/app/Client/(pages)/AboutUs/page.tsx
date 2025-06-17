@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import "../../../globals.css";
 import { Title } from "@/app/components/Client/Title/Title";
 import { AboutUs } from "@/app/components/Client/AboutUs/AboutUs";
+import { Search } from "@/app/components/Client/Search/Search";
 
 
 
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function AboutUsPage() {
   return (
    <div className="">
+    
     <Title title="About Us"/>
     <AboutUs/>
    </div>

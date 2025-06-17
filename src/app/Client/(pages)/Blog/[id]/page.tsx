@@ -1,7 +1,7 @@
 "use client"
-import { Blog, posts } from "@/app/components/Blog/Blog";
-import { BlogItem } from "@/app/components/Blog/BlogItem";
-import { BlogItemNew } from "@/app/components/Blog/BlogItemNew";
+import { Blog, posts } from "@/app/components/Client/Blog/Blog";
+import { BlogItem } from "@/app/components/Client/Blog/BlogItem";
+import { BlogItemNew } from "@/app/components/Client/Blog/BlogItemNew";
 import { useParams } from "next/navigation"
 
  const BlogDetail = ()=>{

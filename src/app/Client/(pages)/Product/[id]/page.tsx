@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import StarIcon from "@mui/icons-material/Star";
 import { useParams } from "next/navigation";
 import axios from "axios";
+import { AddCart } from "@/app/components/Client/CartIcon/AddCart";
+import { BuyNow } from "@/app/components/Client/Checkout/BuyNow";
 
 export default function ProductDetailpage() {
   const params = useParams();
@@ -29,12 +31,12 @@ export default function ProductDetailpage() {
     return <div className="text-center mt-20 text-gray-500">Đang tải sản phẩm...</div>;
   }
 
-  // Xử lý ảnh: nếu có thì lấy, không có thì fallback placeholder
+  
   const imageSrc = product.image || "/placeholder.png";
 
   return (
     <div className="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-14">
-      {/* Ảnh sản phẩm */}
+     
       <div>
         <img
           src={imageSrc}
@@ -43,7 +45,7 @@ export default function ProductDetailpage() {
         />
       </div>
 
-      {/* Thông tin sản phẩm */}
+      
       <div className="flex flex-col">
         <h1 className="text-4xl font-extrabold mb-4">{product.title}</h1>
 
@@ -74,19 +76,15 @@ export default function ProductDetailpage() {
           />
         </div>
 
-        <div className="flex space-x-5">
-          <button
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition"
-            onClick={() => alert(`Đã thêm ${quantity} sản phẩm vào giỏ hàng`)}
-          >
-            Thêm vào giỏ
-          </button>
-          <button
-            className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-md transition"
-            onClick={() => alert("Chuyển đến trang thanh toán")}
-          >
-            Mua ngay
-          </button>
+        <div className="flex gap-[20px]">
+       
+           <div className=" w-[20%] bg-[#eeedeb] cursor-pointer py-[12px] px-[30px] flex items-center justify-center rounded-[5px]  ">
+            <AddCart product={product} quantity={quantity}/> 
+           </div>
+        
+        <div className="px-[30px] w-[30%] py-[12px] cursor-pointer flex items-center justify-center border rounded-[5px] text-white bg-black">
+           <BuyNow product={product} quantity={quantity} />
+        </div>
         </div>
 
         <section className="mt-10">
