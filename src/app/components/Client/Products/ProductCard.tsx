@@ -5,11 +5,12 @@ import { AddCart } from "../CartIcon/AddCart";
 import { BuyNow } from "../Checkout/BuyNow";
 export const ProductCard = (props: { item: any }) => {
   const { item } = props;
+  console.log(item);
   return (
     <>
       
         <div className="px-[10px] py-[10px] border border-[#ccc]  hover:shadow">
-          <div className="w-[280px] h-[250px] truncate aspect-ratio ">
+          <div className="w-full aspect-[1/1]   overflow-hidden ">
             <img
               src={item.image}
               alt=""
@@ -20,6 +21,9 @@ export const ProductCard = (props: { item: any }) => {
           <h4 className="font-[600] text-[18px]  my-[10px] line-clamp-1">
             {item.title}
           </h4>
+          </Link>
+          <Link href="">
+          <p className="text-[#eee] text-[14px]"></p>
           </Link>
           <p className="">{item.price}đ</p>
           <div className="ml-[-2px] my-[10px] flex items-center">

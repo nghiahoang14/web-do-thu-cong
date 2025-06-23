@@ -20,10 +20,10 @@ export const AdminLayout = ({ children, username = "Admin" }: AdminLayoutProps) 
       <div className="flex flex-1">
         <aside className="w-64 bg-gray-900 text-white p-4 space-y-3">
           <Link href="/Admin/Products" className="block hover:text-blue-400">
-            📦 Quản lý sản phẩm
+             Quản lý sản phẩm
           </Link>
-          <Link href="/admin/categories" className="block hover:text-blue-400">
-            📁 Quản lý danh mục
+          <Link href="/Admin/Categories" className="block hover:text-blue-400">
+             Quản lý danh mục
           </Link>
         </aside>
 

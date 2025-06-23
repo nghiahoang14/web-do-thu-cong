@@ -7,16 +7,25 @@ interface CartItem extends Product {
 
 interface CartState {
   items: CartItem[];
+    userId: string | null;
 }
 
 const initialState: CartState = {
   items: [],
+  userId: null,
 };
 
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+     setUserId: (state, action: PayloadAction<string>) => {
+       if (state.userId !== action.payload) {
+    
+    state.items = [];
+  }
+    state.userId = action.payload;
+  },
     addToCart: (state, action: PayloadAction<Product>) => {
       const product = action.payload;
       const existingItem = state.items.find(item => item._id === product._id);
@@ -42,5 +51,5 @@ export const cartSlice = createSlice({
   }
 });
 
-export const { addToCart, removeFromCart, clearCart ,decreaseQuantity} = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart ,decreaseQuantity,setUserId} = cartSlice.actions;
 export default cartSlice.reducer;

@@ -29,11 +29,7 @@ export const Sider = ()=>{
                                   <div className="hover:font-bold transition-all " >Sản phẩm</div>
                                  </Link>
                              </li>
-                              <li className="">
-                                 <Link href="/Client">
-                                  <div className="hover:font-bold transition-all "> Danh mục</div>
-                                 </Link>
-                             </li>
+                             
                               <li className="">
                                  <Link href="/Client/Blog">
                                   <div className="hover:font-bold transition-all ">Blog</div>

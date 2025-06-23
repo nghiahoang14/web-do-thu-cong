@@ -5,6 +5,8 @@ import { Logo } from "../Logo/Logo";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/redux/authSlice";
+import { setUserId } from "@/redux/cartSlice";
+
 import { RootState } from "@/redux/store";
 
 export const Login = () => {
@@ -29,6 +31,7 @@ export const Login = () => {
       })
        const {  user } = res.data;
        console.log(JSON.stringify(user));
+       dispatch(setUserId(user._id));
   dispatch(login(user));
     
   

@@ -3,7 +3,7 @@
 import {  useRouter } from "next/navigation";
 import { useState } from "react";
 
-export const CreateProduct = ({ onSubmit }: { onSubmit: (data: any) => void }) => {
+export const CreateProduct = ({ onSubmit,categories }: { onSubmit: (data: any) => void ,categories:any}) => {
     const router=useRouter();
   const [formData, setFormData] = useState({
     title: "",
@@ -20,36 +20,38 @@ export const CreateProduct = ({ onSubmit }: { onSubmit: (data: any) => void }) =
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value, files } = e.target as HTMLInputElement;
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+) => {
+  const { name, value, files } = e.target as HTMLInputElement;
 
-    if (name === "rate" || name === "count") {
-      setFormData((prev) => ({
-        ...prev,
-        rating: {
-          ...prev.rating,
-          [name]: Number(value),
-        },
-      }));
-    } else if (name === "image" && files && files[0]) {
-      const imageUrl = URL.createObjectURL(files[0]);
-      setFormData((prev) => ({
-        ...prev,
-        image: imageUrl,
-      }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: name === "price" || name === "stock" ? Number(value) : value,
-      }));
-    }
-  };
+  if (name === "image" && files && files[0]) {
+    const imageUrl = URL.createObjectURL(files[0]);
+    setFormData((prev) => ({
+      ...prev,
+      image: imageUrl,
+    }));
+  } else if (name === "rate" || name === "count") {
+    setFormData((prev) => ({
+      ...prev,
+      rating: {
+        ...prev.rating,
+        [name]: value,
+      },
+    }));
+  } else {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+};
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
     console.log(formData)
+    console.log("typeof category:", typeof formData.category, formData.category);
     router.push("/Admin/Products");
   };
 
@@ -95,14 +97,21 @@ export const CreateProduct = ({ onSubmit }: { onSubmit: (data: any) => void }) =
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">ID danh mục</label>
-          <input
+          <label className="block mb-1 font-medium">Danh mục</label>
+          <select
             name="category"
             value={formData.category}
             onChange={handleChange}
-            placeholder="ID danh mục (category)"
             className="w-full px-3 py-2 border rounded"
-          />
+            required
+          >
+            <option value="">-- Chọn danh mục --</option>
+            {categories.map((cat:any) => (
+              <option key={cat._id} value={cat._id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>

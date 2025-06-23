@@ -2,7 +2,7 @@
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-
+import { setUserId,clearCart } from "@/redux/cartSlice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/authSlice";
@@ -32,7 +32,12 @@ const dispatch = useDispatch();
             <ChangePassword/>
             <li className="flex items-center cursor-pointer gap-[5px] mb-[7px] hover:text-orange-500">
               <LogoutOutlinedIcon />
-              <a onClick={() => dispatch(logout())} className="text-[16px]">
+              <a onClick={() => {
+                dispatch(clearCart());
+  dispatch(logout());
+  dispatch(setUserId(""));
+}}
+ className="text-[16px]">
                 
                 Log out
               </a>

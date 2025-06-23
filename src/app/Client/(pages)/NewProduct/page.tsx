@@ -9,6 +9,7 @@ import { useState } from "react";
 
 
 
+
 export default function NewProductPage() {
   const [sortOption, setSortOption] = useState("default");
   return (
@@ -17,7 +18,11 @@ export default function NewProductPage() {
            <div className="flex justify-end">
              <Filter onSortChange={setSortOption}/>
            </div>
-           <ProductList  filterType="new" href="" className="" sortOption={sortOption} showMore={false} />
+           <div className="flex items-start gap-[50px]">
+             
+             <ProductList  filterType="new" href="" className="" sortOption={sortOption} showMore={false} />
+          
+           </div>
           
          </div>
   );

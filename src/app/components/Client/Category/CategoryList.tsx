@@ -4,6 +4,7 @@ import { Title } from "../Title/Title"
 import { Category } from "./Category"
 import axios from "axios";
 export interface Category{
+  _id:string,
     name:string,
     description:string,
     parent:string,

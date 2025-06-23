@@ -19,7 +19,14 @@ export default function RootLayout({
 }>) {
     const pathname = usePathname();
 
-  const hideLayout = pathname === '/Client/Checkout'; 
+  const noLayoutRoutes = [
+    "/Client/Checkout",
+    "/Client/ConfirmCheckout",
+    "/Client/OrderHistory"
+  ];
+
+  const hideLayout = noLayoutRoutes.some((route) => pathname.startsWith(route));
+
   return (
     
         <ReduxProvider>
