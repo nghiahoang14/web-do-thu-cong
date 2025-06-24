@@ -11,10 +11,13 @@ export const CartIcon = () => {
   const toggleCart = () => {
     setIsopen(!isOpen);
   };
-  const cartCount = useSelector((state: RootState) =>
-    state.cart.items.reduce((total, item) => total + (item.quantity || 0), 0)
+  const rawItems = useSelector((state: RootState) => state.cart.items);
+const items = Array.isArray(rawItems) ? rawItems : [];
+
+  const cartCount = items.reduce(
+    (total, item) => total + (item.quantity || 0),
+    0
   );
-  const items = useSelector((state: RootState) => state.cart.items);
    useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (

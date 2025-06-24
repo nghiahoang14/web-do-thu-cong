@@ -13,9 +13,10 @@ export const CheckoutInfo = (props: { onDataChange: (data: any) => void ,showErr
   const [districts, setDistricts] = useState<any[]>([]);
   const [wards, setWards] = useState<any[]>([]);
   const [note, setNote] = useState("");
-  const [selectedProvince, setSelectedProvince] = useState<string>("");
-  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
-  const [selectedWard, setSelectedWard] = useState<string>("");
+  const [selectedProvince, setSelectedProvince] = useState<any>(null);
+const [selectedDistrict, setSelectedDistrict] = useState<any>(null);
+const [selectedWard, setSelectedWard] = useState<any>(null);
+
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -50,27 +51,29 @@ export const CheckoutInfo = (props: { onDataChange: (data: any) => void ,showErr
       .then((res) => res.json())
       .then((data) => setProvinces(data));
   }, []);
-  // Khi chọn tỉnh → load quận
-  useEffect(() => {
-    if (selectedProvince) {
-      fetch(`https://provinces.open-api.vn/api/p/${selectedProvince}?depth=2`)
-        .then((res) => res.json())
-        .then((data) => {
-          setDistricts(data.districts || []);
-          setWards([]); // reset xã
-          setSelectedDistrict("");
-        });
-    }
-  }, [selectedProvince]);
+useEffect(() => {
+  if (selectedProvince?.code) {
+    fetch(`https://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`)
+      .then((res) => res.json())
+      .then((data) => {
+        setDistricts(data.districts || []);
+        setWards([]);
+        setSelectedDistrict(null);
+        setSelectedWard(null);
+      });
+  }
+}, [selectedProvince]);
 
-  // Khi chọn quận → load xã
-  useEffect(() => {
-    if (selectedDistrict) {
-      fetch(`https://provinces.open-api.vn/api/d/${selectedDistrict}?depth=2`)
-        .then((res) => res.json())
-        .then((data) => setWards(data.wards || []));
-    }
-  }, [selectedDistrict]);
+useEffect(() => {
+  if (selectedDistrict?.code) {
+    fetch(`https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`)
+      .then((res) => res.json())
+      .then((data) => {
+        setWards(data.wards || []);
+      });
+  }
+}, [selectedDistrict]);
+
   return (
     <>
       <div className="w-[40%]">
@@ -144,8 +147,11 @@ export const CheckoutInfo = (props: { onDataChange: (data: any) => void ,showErr
           )}
           <div className="relative">
             <select
-              value={selectedProvince}
-              onChange={(e) => setSelectedProvince(e.target.value)}
+                value={selectedProvince?.code || ""}
+  onChange={(e) => {
+    const province = provinces.find((p) => p.code == e.target.value);
+    setSelectedProvince(province);
+  }}
               className=" appearance-none border rounded-[5px] border-[#D9D9D9] py-[7px] px-[5px] w-full"
             >
               <option>-- Tỉnh thành --</option>
@@ -162,8 +168,11 @@ export const CheckoutInfo = (props: { onDataChange: (data: any) => void ,showErr
 
           <div className="relative">
             <select
-              value={selectedDistrict}
-              onChange={(e) => setSelectedDistrict(e.target.value)}
+              value={selectedDistrict?.code || ""}
+  onChange={(e) => {
+    const district = districts.find((d) => d.code == e.target.value);
+    setSelectedDistrict(district);
+  }}
               className=" appearance-none border rounded-[5px] border-[#D9D9D9] py-[7px] px-[5px] w-full"
             >
               <option>Quận huyện (tùy chọn)</option>
@@ -180,8 +189,11 @@ export const CheckoutInfo = (props: { onDataChange: (data: any) => void ,showErr
 
           <div className="relative">
             <select
-              value={selectedWard}
-              onChange={(e) => setSelectedWard(e.target.value)}
+             value={selectedWard?.code || ""}
+  onChange={(e) => {
+    const ward = wards.find((w) => w.code == e.target.value);
+    setSelectedWard(ward);
+  }}
               className=" appearance-none border rounded-[5px] border-[#D9D9D9] py-[7px] px-[5px] w-full"
             >
               <option>Phường xã (tùy chọn)</option>

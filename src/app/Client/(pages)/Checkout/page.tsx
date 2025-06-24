@@ -6,11 +6,12 @@ import { CheckoutInfo } from "@/app/components/Client/Checkout/CheckoutInfo";
 import { CheckoutShipping } from "@/app/components/Client/Checkout/CheckoutShipping";
 import { CheckoutMethod } from "@/app/components/Client/Checkout/CheckoutMethod";
 import { CheckoutSummary } from "@/app/components/Client/Checkout/CheckoutSummary";
-import { useEffect, useState } from "react";
+import { useEffect, useState, } from "react";
 import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import axios from "axios";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { clearCart } from "@/redux/cartSlice";
 
 export default function CheckoutPage() {
  const [formData, setFormData] = useState<any>({});
@@ -21,6 +22,8 @@ export default function CheckoutPage() {
 const user = useSelector((state: RootState) => state.auth.user);
  const [orderItems, setOrderItems] = useState<any[]>([]);
 const pathname = usePathname();
+const dispatch = useDispatch();
+const Router=useRouter();
 useEffect(() => {
   const storedItem = localStorage.getItem("buyNowItem");
 
@@ -51,6 +54,8 @@ const handleOrder = async () => {
       selectedWard,
       
     } = formData;
+    console.log("Form data:", formData);
+
    const {paymentMethod}=methodData;
    const {shippingMethod}=shippingData;
 const email = formEmail || user?.email;
@@ -64,10 +69,11 @@ const name = formName || user?.name;
     const orderPayload = {
   userId: user?._id, 
   paymentMethod,  
-  shippingAddress: `${address}, ${selectedWard}, ${selectedDistrict}, ${selectedProvince}`,
+  shippingAddress: `${address}, ${selectedWard?.name || ""}, ${selectedDistrict?.name || ""}, ${selectedProvince?.name || ""}`,
+
   status: "pending",
   items: orderItems.map((item) => ({
-    product: item._id,
+    product_id: item._id,
     quantity: item.quantity,
     price: item.price,
   })),
@@ -77,6 +83,13 @@ localStorage.removeItem("buyNowItem");
 
 try{
  const res = await axios.post("http://localhost:3001/order",orderPayload);
+ console.log(res);
+ if(res.data.message){
+  alert(res.data.message);
+ }
+ Router.push("/Client/CheckoutConfirm");
+ dispatch(clearCart());
+ 
 }catch(err:any){
   console.error(err);
 }

@@ -44,7 +44,7 @@ export const ProductList = (props:{filterType:string,href:string, className:stri
         data = data.filter((p: Product) => {
           const createdAt = new Date(p.createdAt);
           const days = (now.getTime() - createdAt.getTime()) / (1000 * 3600 * 24);
-          return days <= 7;
+          return days <= 30;
         });
       }
     if (categoryId) {

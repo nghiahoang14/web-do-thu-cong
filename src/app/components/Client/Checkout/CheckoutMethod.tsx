@@ -19,7 +19,7 @@ export const CheckoutMethod=(props:{onDataChange: (data: any) => void ,showError
                 </div>)}
                 <label
                   className={`flex items-center justify-between border rounded-[5px] px-[10px] py-[10px] w-full cursor-pointer mb-[10px] ${
-                    paymentMethod === "bank"
+                    paymentMethod === "BANK"
                       ? "border-blue-500 bg-blue-50"
                       : "border-[#D9D9D9] bg-gray-50"
                   }`}
@@ -28,9 +28,9 @@ export const CheckoutMethod=(props:{onDataChange: (data: any) => void ,showError
                     <input
                       type="radio"
                       name="payment"
-                      value="bank"
-                      checked={paymentMethod === "bank"}
-                      onChange={() => setPaymentMethod("bank")}
+                      value="BANK"
+                      checked={paymentMethod === "BANK"}
+                      onChange={() => setPaymentMethod("BANK")}
                     />
                     <span className="text-[18px] font-[500]">Chuyển khoản</span>
                   </div>
@@ -39,7 +39,7 @@ export const CheckoutMethod=(props:{onDataChange: (data: any) => void ,showError
 
                 <label
                   className={`flex items-center justify-between border rounded-[5px] px-[10px] py-[10px] w-full cursor-pointer ${
-                    paymentMethod === "cod"
+                    paymentMethod === "COD"
                       ? "border-blue-500 bg-blue-50"
                       : "border-[#D9D9D9] bg-gray-50"
                   }`}
@@ -48,9 +48,9 @@ export const CheckoutMethod=(props:{onDataChange: (data: any) => void ,showError
                     <input
                       type="radio"
                       name="payment"
-                      value="cod"
-                      checked={paymentMethod === "cod"}
-                      onChange={() => setPaymentMethod("cod")}
+                      value="COD"
+                      checked={paymentMethod === "COD"}
+                      onChange={() => setPaymentMethod("COD")}
                     />
                     <span className="text-[18px] font-[500]">Tiền mặt</span>
                   </div>

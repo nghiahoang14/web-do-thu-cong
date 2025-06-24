@@ -7,7 +7,7 @@ interface CartItem extends Product {
 
 interface CartState {
   items: CartItem[];
-    userId: string | null;
+  userId: string | null;
 }
 
 const initialState: CartState = {
@@ -19,21 +19,30 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-     setUserId: (state, action: PayloadAction<string>) => {
-       if (state.userId !== action.payload) {
-    
-    state.items = [];
-  }
-    state.userId = action.payload;
-  },
+    setUserId: (state, action: PayloadAction<string>) => {
+      if (state.userId !== action.payload) {
+     
+      }
+      state.userId = action.payload;
+    },
+    fetchCartFromServer: (state, action: PayloadAction<CartItem[]>) => {
+       console.log("📦 Payload to Redux:", action.payload);
+      state.items = action.payload;
+    },
     addToCart: (state, action: PayloadAction<Product>) => {
       const product = action.payload;
+
+      // ✅ Đảm bảo state.items tồn tại
+      if (!Array.isArray(state.items)) {
+        state.items = [];
+      }
+
       const existingItem = state.items.find(item => item._id === product._id);
 
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        state.items.push({ ...product, quantity: 1 });
+        state.items.push({ ...product, quantity: product.quantity || 1 });
       }
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
@@ -43,13 +52,21 @@ export const cartSlice = createSlice({
       state.items = [];
     },
     decreaseQuantity: (state, action: PayloadAction<string>) => {
-  const item = state.items.find((item) => item._id === action.payload);
-  if (item && item.quantity && item.quantity > 1) {
-    item.quantity -= 1;
-  }
-}
+      const item = state.items.find((item) => item._id === action.payload);
+      if (item && item.quantity && item.quantity > 1) {
+        item.quantity -= 1;
+      }
+    }
   }
 });
 
-export const { addToCart, removeFromCart, clearCart ,decreaseQuantity,setUserId} = cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  clearCart,
+  decreaseQuantity,
+  setUserId,
+  fetchCartFromServer
+} = cartSlice.actions;
+
 export default cartSlice.reducer;

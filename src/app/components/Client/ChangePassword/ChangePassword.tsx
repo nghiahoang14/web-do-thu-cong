@@ -7,7 +7,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 export const ChangePassword = ()=>{
     const [showModal, setShowModal] = useState(false);
-        const [password,setPassword]= useState("");
+        const [Newpassword,setNewPassword]= useState("");
+        const [CurrentPassword, setCurrentPassword] = useState("");
+
         const [confirmPassword,setConfirmPassword]= useState("");
          const user = useSelector((state: RootState) => state.auth.user);
 const handleShowModal=()=>{
@@ -18,14 +20,16 @@ const handleCloseModal=()=>{
 }
 const handleSubmit = async (e:any)=>{
 e.preventDefault();
-if(password!==confirmPassword){
+if(Newpassword!==confirmPassword){
     alert("Mật khẩu không khớp");
     return
 }
 try{
-    const res = await axios.patch("http://localhost:3001/auth/change-password",{
-         userId:user?._id,
-  password
+    const res = await axios.patch("http://localhost:3001/auth/password/change",{
+         email:user?.email,
+        CurrentPassword,
+        Newpassword,
+        
     });
     alert("Đổi mật khẩu thành công");
     console.log(res);
@@ -62,69 +66,84 @@ try{
                          <Logo/>
                       
                         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-                          Change your password
+                          Thay đổi mật khẩu
                         </h2>
                       </div>
         
                       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                        <form action="#" method="POST" className="space-y-6"  onSubmit={handleSubmit}>
-                          
-        
-                          <div>
-                            <div className="flex items-center justify-between">
-                              <label
-                                htmlFor="password"
-                                className="block text-sm/6 font-medium text-gray-900"
-                              >
-                                Password
-                              </label>
-                              
-                            </div>
-                            <div className="mt-2">
-                              <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                required
-                                autoComplete="current-password"
-                                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                onChange={(e)=>setPassword(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                         <div>
-                            <div className="flex items-center justify-between">
-                              <label
-                                htmlFor="ConfirmPassword"
-                                className="block text-sm/6 font-medium text-gray-900"
-                              >
-                                Confirm Password
-                              </label>
-                             
-                            </div>
-                            <div className="mt-2">
-                              <input
-                                id="ConfirmPassword"
-                                name="ConfirmPassword"
-                                type="Password"
-                                required
-                                autoComplete="current-password"
-                                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                onChange={(e)=>setConfirmPassword(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div>
-                            <button
-                              type="submit"
-                              className=" cursor-pointer flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                             
-                            >
-                              Submit
-                            </button>
-                          </div>
-                        </form>
-        
+                      <form onSubmit={handleSubmit} className="space-y-6">
+  {/* Mật khẩu hiện tại */}
+  <div>
+    <label
+      htmlFor="oldPassword"
+      className="block text-sm font-medium text-gray-900"
+    >
+      Mật khẩu hiện tại
+    </label>
+    <div className="mt-2">
+      <input
+        id="oldPassword"
+        name="oldPassword"
+        type="password"
+        required
+        autoComplete="current-password"
+        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600"
+        onChange={(e) => setCurrentPassword(e.target.value)}
+      />
+    </div>
+  </div>
+
+  {/* Mật khẩu mới */}
+  <div>
+    <label
+      htmlFor="newPassword"
+      className="block text-sm font-medium text-gray-900"
+    >
+      Mật khẩu mới
+    </label>
+    <div className="mt-2">
+      <input
+        id="newPassword"
+        name="newPassword"
+        type="password"
+        required
+        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600"
+        onChange={(e) => setNewPassword(e.target.value)}
+      />
+    </div>
+  </div>
+
+  {/* Xác nhận mật khẩu mới */}
+  <div>
+    <label
+      htmlFor="confirmPassword"
+      className="block text-sm font-medium text-gray-900"
+    >
+      Xác nhận mật khẩu mới
+    </label>
+    <div className="mt-2">
+      <input
+        id="confirmPassword"
+        name="confirmPassword"
+        type="password"
+        required
+        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600"
+        onChange={(e) => setConfirmPassword(e.target.value)}
+      />
+    </div>
+  </div>
+
+  {/* Nút Submit */}
+  <div>
+    <button
+      type="submit"
+      className="cursor-pointer flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    >
+      Gửi
+    </button>
+  </div>
+</form>
+
                        
                       </div>
                     </div>{" "}

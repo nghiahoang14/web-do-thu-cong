@@ -13,10 +13,13 @@ export const AddCart = (props: { product: any; quantity?: number }) => {
 
   const handleCart = async () => {
     if (product && product.stock!==0) {
-      dispatch(addToCart({ ...product, quantity }));
-      console.log("Đã thêm vào giỏ:", product);
-    }
+    
+
+
+  const quantityToAdd = quantity || 1;
     try {
+      dispatch(addToCart({ ...product, quantity: quantityToAdd }));
+      console.log("Đã thêm vào giỏ:", product);
       const response = await axios.post(`http://localhost:3001/cart/add`, {
         productId: product._id,
         userId: user?._id,
@@ -39,6 +42,7 @@ export const AddCart = (props: { product: any; quantity?: number }) => {
       alert("❌ Đã xảy ra lỗi. Vui lòng thử lại sau.");
     }
     }
+  }
   };
 
   return (
