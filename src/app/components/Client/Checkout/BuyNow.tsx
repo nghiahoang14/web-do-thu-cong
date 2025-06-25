@@ -8,7 +8,10 @@ export const BuyNow =(props:{product:any, quantity?: number})=>{
     const {product,quantity}=props;
     console.log(product.title)
     const handleBuyNow = () => {
-   
+   if (!product || product.stock < 1) {
+    alert("❌ Sản phẩm đã hết hàng, không thể mua ngay.");
+    return;
+  }
   const buyNowItem = {
     _id: product._id,
     title: product.title,

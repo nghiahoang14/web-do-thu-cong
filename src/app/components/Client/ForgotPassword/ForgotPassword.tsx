@@ -6,7 +6,9 @@ import axios from "axios";
 export const ForgotPassword = ({ onClose }: { onClose: () => void }) => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
-  const [step, setStep] = useState<"enterEmail" | "enterOtp">("enterEmail");
+  const [step, setStep] = useState<"enterEmail" | "enterOtp"|"resetPassword">("enterEmail");
+const [newPassword, setNewPassword] = useState("");
+const [ConfirmNewPassword, setConfirmNewPassword] = useState("");
 
   const handleSendEmail = async (e: any) => {
     e.preventDefault();
@@ -32,12 +34,33 @@ export const ForgotPassword = ({ onClose }: { onClose: () => void }) => {
       });
       console.log("OTP verified:", res.data);
       alert("OTP hợp lệ. Bạn có thể đổi mật khẩu.");
-      // TODO: Chuyển sang form đổi mật khẩu
+      setStep("resetPassword");
     } catch (err) {
       console.error(err);
       alert("OTP không hợp lệ hoặc đã hết hạn.");
     }
   };
+
+
+const handleResetPassword = async (e: any) => {
+  e.preventDefault();
+  if(newPassword!== ConfirmNewPassword){
+    alert("Mật khẩu ko khớp!");
+    return;
+  }
+  try {
+    const res = await axios.post("http://localhost:3001/auth/password/reset", {
+      email,
+       password: newPassword,
+  confirmPassword: ConfirmNewPassword,
+    });
+    alert("✅ Mật khẩu đã được đặt lại thành công.");
+    onClose(); // đóng modal
+  } catch (err) {
+    console.error(err);
+    alert("❌ Đặt lại mật khẩu thất bại.");
+  }
+};
 
   return (
     <div
@@ -121,6 +144,47 @@ export const ForgotPassword = ({ onClose }: { onClose: () => void }) => {
               </div>
             </form>
           )}
+          {step === "resetPassword" && (
+  <form onSubmit={handleResetPassword} className="space-y-6">
+    <div>
+      <label htmlFor="newPassword" className="block text-sm font-medium text-gray-900">
+      Mật khẩu mới
+      </label>
+      <div className="mt-2">
+        <input
+          id="newPassword"
+          name="newPassword"
+          type="password"
+          required
+          className="block w-full rounded-md bg-white px-5 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600"
+          onChange={(e) => setNewPassword(e.target.value)}
+        />
+      </div>
+    </div>
+     <div>
+      <label htmlFor="ConfirmNewPassword" className="block text-sm font-medium text-gray-900">
+       Xác nhận mật khẩu mới
+      </label>
+      <div className="mt-2">
+        <input
+          id="ConfirmNewPassword"
+          name="ConfirmNewPassword"
+          type="password"
+          required
+          className="block w-full rounded-md bg-white px-5 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600"
+          onChange={(e) => setConfirmNewPassword(e.target.value)}
+        />
+      </div>
+    </div>
+    <button
+      type="submit"
+      className="cursor-pointer flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+    >
+      Đặt lại mật khẩu
+    </button>
+  </form>
+)}
+
         </div>
       </div>
     </div>

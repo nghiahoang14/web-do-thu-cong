@@ -12,38 +12,40 @@ export const AddCart = (props: { product: any; quantity?: number }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleCart = async () => {
-    if (product && product.stock!==0) {
-    
-
+  if (!product || product.stock < 1) {
+   
+    return;
+  }
 
   const quantityToAdd = quantity || 1;
-    try {
+
+  try {
+    
+    const response = await axios.post(`http://localhost:3001/cart/add`, {
+      productId: product._id,
+      userId: user?._id,
+      quantity: quantityToAdd,
+    });
+
+   
+    if (response.status === 200 || response.status === 201) {
       dispatch(addToCart({ ...product, quantity: quantityToAdd }));
-      console.log("Đã thêm vào giỏ:", product);
-      const response = await axios.post(`http://localhost:3001/cart/add`, {
-        productId: product._id,
-        userId: user?._id,
-        quantity
-      });
-      console.log(response)
-       if (response.status === 200 || response.status === 201) {
-      console.log("✅ Đã gửi lên server thành công!", response.data);
       alert("✅ Đã thêm vào giỏ hàng thành công!");
-      
     } else {
-      console.log("⚠️ Gửi không thành công. Mã:", response.status);
-      alert("❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!"); 
+      alert("❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!");
     }
-    } catch (err:any) {
-      console.log(err);
-       if (err.response && err.response.data && err.response.data.message) {
+  } catch (err: any) {
+    console.log("❌ Lỗi axios:", err);
+
+   
+    if (err.response?.data?.message) {
       alert(`❌ ${err.response.data.message}`);
     } else {
       alert("❌ Đã xảy ra lỗi. Vui lòng thử lại sau.");
     }
-    }
   }
-  };
+};
+
 
   return (
     <>

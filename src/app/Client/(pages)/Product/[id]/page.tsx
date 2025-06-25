@@ -11,6 +11,7 @@ export default function ProductDetailpage() {
   const params = useParams();
   const id = params.id;
 
+
   const [product, setProduct] = useState<any>(null);
   const [quantity, setQuantity] = useState(1);
 
@@ -30,7 +31,7 @@ export default function ProductDetailpage() {
   if (!product) {
     return <div className="text-center mt-20 text-gray-500">Đang tải sản phẩm...</div>;
   }
-
+const isOutOfStock = product.stock < 1;
   
   const imageSrc = product.image || "/placeholder.png";
 
@@ -61,31 +62,39 @@ export default function ProductDetailpage() {
           {product.price.toLocaleString()} VNĐ
         </p>
 
-        <div className="mb-6 flex items-center space-x-4">
-          <label htmlFor="quantity" className="font-semibold text-lg">
-            Số lượng:
-          </label>
-          <input
-            type="number"
-            id="quantity"
-            min={1}
-            max={99}
-            value={quantity}
-            onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
-            className="w-20 rounded-md border border-gray-300 text-center py-1 text-lg"
-          />
-        </div>
+      {isOutOfStock ? (
+  <p className="text-red-600 font-semibold text-[24px] mb-6">Hết hàng</p>
+) : (
+  <>
+    {/* Input số lượng */}
+    <div className="mb-6 flex items-center space-x-4">
+      <label htmlFor="quantity" className="font-semibold text-lg">
+        Số lượng:
+      </label>
+      <input
+        type="number"
+        id="quantity"
+        min={1}
+        max={99}
+        value={quantity}
+        onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
+        className="w-20 rounded-md border border-gray-300 text-center py-1 text-lg"
+      />
+    </div>
 
-        <div className="flex gap-[20px]">
-       
-           <div className=" w-[20%] bg-[#eeedeb] cursor-pointer py-[12px] px-[30px] flex items-center justify-center rounded-[5px]  ">
-            <AddCart product={product} quantity={quantity}/> 
-           </div>
-        
-        <div className="px-[30px] w-[30%] py-[12px] cursor-pointer flex items-center justify-center border rounded-[5px] text-white bg-black">
-           <BuyNow product={product} quantity={quantity} />
-        </div>
-        </div>
+    {/* Nút hành động */}
+    <div className="flex gap-[20px]">
+      <div className="w-[20%] bg-[#eeedeb] cursor-pointer py-[12px] px-[30px] flex items-center justify-center rounded-[5px]">
+        <AddCart product={product} quantity={quantity} />
+      </div>
+
+      <div className="px-[30px] w-[30%] py-[12px] cursor-pointer flex items-center justify-center border rounded-[5px] text-white bg-black">
+        <BuyNow product={product} quantity={quantity} />
+      </div>
+    </div>
+  </>
+)}
+
 
         <section className="mt-10">
           <h2 className="text-2xl font-bold mb-4">Mô tả sản phẩm</h2>

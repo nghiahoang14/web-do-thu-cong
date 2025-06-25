@@ -6,7 +6,8 @@ export const UpdateProduct = (props:{product:any,onSubmit: (data: any) => void;c
 
 ) => {
     const {product,onSubmit,categories}=props;
-    console.log("h")
+    console.log("h");
+    console.log(product)
     // console.log(product.category,1);
   const [formData, setFormData] = useState({
     title: "",
@@ -23,13 +24,13 @@ export const UpdateProduct = (props:{product:any,onSubmit: (data: any) => void;c
   });
 
   useEffect(() => {
-    if (product && categories.length > 0) {
+    if (product   && categories.length > 0) {
       
       setFormData({
         title: product.title || "",
         price: product.price?.toString() || "",
         description: product.description || "",
-        category: product.category._id || "",
+        category:  product.category?._id  || "",
         image: product.image || "",
         stock: product.stock?.toString() || "",
         status: product.status || "active",
@@ -114,6 +115,7 @@ export const UpdateProduct = (props:{product:any,onSubmit: (data: any) => void;c
 
         <select
   name="category"
+   required
   value={formData.category}
   onChange={handleChange}
   className="w-full px-3 py-2 border rounded"

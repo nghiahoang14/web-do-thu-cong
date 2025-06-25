@@ -40,7 +40,7 @@ export const CategoryList = (props:{limit?:number})=>{
                      <Category key={index} item={item} />
                 ))}
             </div>
-            {!limit&& (<More href="/Client/Category" title="Xem thêm"/>)}
+            {category.length>(limit||0) && (<More href="/Client/Product" title="Xem thêm"/>)}
           
         </div>
         </>

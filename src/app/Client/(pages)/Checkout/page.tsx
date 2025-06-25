@@ -8,10 +8,10 @@ import { CheckoutMethod } from "@/app/components/Client/Checkout/CheckoutMethod"
 import { CheckoutSummary } from "@/app/components/Client/Checkout/CheckoutSummary";
 import { useEffect, useState, } from "react";
 import { RootState } from "@/redux/store";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
-import { clearCart } from "@/redux/cartSlice";
+
 
 export default function CheckoutPage() {
  const [formData, setFormData] = useState<any>({});
@@ -22,7 +22,7 @@ export default function CheckoutPage() {
 const user = useSelector((state: RootState) => state.auth.user);
  const [orderItems, setOrderItems] = useState<any[]>([]);
 const pathname = usePathname();
-const dispatch = useDispatch();
+
 const Router=useRouter();
 useEffect(() => {
   const storedItem = localStorage.getItem("buyNowItem");
@@ -88,7 +88,7 @@ try{
   alert(res.data.message);
  }
  Router.push("/Client/CheckoutConfirm");
- dispatch(clearCart());
+ 
  
 }catch(err:any){
   console.error(err);
