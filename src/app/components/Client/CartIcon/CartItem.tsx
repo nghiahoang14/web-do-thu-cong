@@ -112,7 +112,7 @@ export const CartItem = (props: { item: any; className?: string ;showRemoveButto
           <div className="flex-1">
             <p className="font-semibold line-clamp-1">{item.title}</p>
             <p className="text-red-500 text-sm">
-              {item.price.toLocaleString()} VNĐ
+              {(item?.price ?? 0).toLocaleString()} VNĐ
             </p>
           </div>
         </Link>

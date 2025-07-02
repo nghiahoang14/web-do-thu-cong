@@ -21,6 +21,7 @@ export default function CheckoutPage() {
   const items = useSelector((state: RootState) => state.cart.items);
 const user = useSelector((state: RootState) => state.auth.user);
  const [orderItems, setOrderItems] = useState<any[]>([]);
+ const [totalFromChild, setTotalFromChild] = useState(0);
 const pathname = usePathname();
 
 const Router=useRouter();
@@ -66,17 +67,24 @@ const name = formName || user?.name;
      setShowError(true);
       return;
     }
+    
+    
     const orderPayload = {
   userId: user?._id, 
+  phone:phone,
   paymentMethod,  
+  shippingMethod,
   shippingAddress: `${address}, ${selectedWard?.name || ""}, ${selectedDistrict?.name || ""}, ${selectedProvince?.name || ""}`,
 
   status: "pending",
   items: orderItems.map((item) => ({
+    image:item.image,
+    title:item.title,
     product_id: item._id,
     quantity: item.quantity,
     price: item.price,
   })),
+  totalPrice:totalFromChild
 };
 console.log(orderPayload);
 localStorage.removeItem("buyNowItem");
@@ -87,7 +95,8 @@ try{
  if(res.data.message){
   alert(res.data.message);
  }
- Router.push("/Client/CheckoutConfirm");
+ const orderId = res.data.order._id;
+ Router.push(`/Client/CheckoutConfirm?id=${orderId}`);
  
  
 }catch(err:any){
@@ -111,7 +120,7 @@ try{
             </div>
           </div>
         </div>
-       <CheckoutSummary onOrder={handleOrder} shippingMethod={shippingData.shippingMethod} orderItems={orderItems}/>
+       <CheckoutSummary  onTotalChange={(total: number) => setTotalFromChild(total)} onOrder={handleOrder} shippingMethod={shippingData.shippingMethod} orderItems={orderItems}/>
       </div>
     </>
   );

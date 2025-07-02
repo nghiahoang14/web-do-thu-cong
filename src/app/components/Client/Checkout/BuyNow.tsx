@@ -3,17 +3,14 @@ import { useRouter } from "next/navigation";
 
 
 
-export const BuyNow =(props:{product:any, quantity?: number})=>{
+export const BuyNow =(props:{product:any, quantity?: number,title:string})=>{
      const router = useRouter();
-    const {product,quantity}=props;
+    const {product,quantity,title}=props;
     console.log(product.title)
     const handleBuyNow = () => {
-   if (!product || product.stock < 1) {
-    alert("❌ Sản phẩm đã hết hàng, không thể mua ngay.");
-    return;
-  }
+  
   const buyNowItem = {
-    _id: product._id,
+    _id: product?.product_id?._id || product._id,
     title: product.title,
     price: product.price,
     image: product.image,
@@ -26,7 +23,7 @@ export const BuyNow =(props:{product:any, quantity?: number})=>{
     return(
         <>
          
-             <button onClick={handleBuyNow} className="cursor-pointer">Mua ngay</button>
+             <button onClick={handleBuyNow} className="cursor-pointer">{title}</button>
             
         </>
     )

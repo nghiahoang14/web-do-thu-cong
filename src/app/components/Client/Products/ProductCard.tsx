@@ -40,7 +40,7 @@ export const ProductCard = (props: { item: any }) => {
             <AddCart product={item} />
           </div>
           <div className="w-[70%] h-full flex items-center justify-center bg-[#000000] text-white">
-            <BuyNow product={item} />
+            <BuyNow product={item} title="Mua ngay"/>
           </div>
         </div>
       )}

@@ -75,6 +75,7 @@ export const ProductList = (props:{filterType:string,href:string, className:stri
       })
       .catch((err) => {
         console.error("Lỗi khi gọi API sản phẩm:", err);
+          alert(err.response.data.message);
       })
       .finally(() => {
         setLoad(false);

@@ -9,6 +9,7 @@ import { RootState } from "@/redux/store";
 export const Register =()=>{
     const [showModal, setShowModal] = useState(false);
     const [email,setEmail]= useState("");
+    const [name,setName]= useState("");
     const [password,setPassword]= useState("");
     const [confirmPassword,setConfirmPassword]= useState("");
     const user = useSelector((state: RootState) => state.auth.user);
@@ -29,6 +30,7 @@ if(password!==confirmPassword){
 }
 try{
     const res = await axios.post("http://localhost:3001/auth/register",{
+      name,
        email,
        password,
     });
@@ -37,7 +39,7 @@ try{
     handleCloseModal();
 }catch(err:any){
     console.error(err);
-    alert("đăng ký thất bại")
+    alert(err.response.data.message);
 }
 }
     return(
@@ -68,13 +70,32 @@ try{
                
                  <Logo/>
               
-                <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+                <h2 className="mt-5 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
                   Create your account
                 </h2>
               </div>
 
-              <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+              <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
                 <form action="#" method="POST" className="space-y-6"  onSubmit={handleSubmit}>
+                  <div>
+                    <label
+                      htmlFor="name"
+                      className="block text-sm/6 font-medium text-gray-900"
+                    >
+                     Name
+                    </label>
+                    <div className="mt-[15px]">
+                      <input
+                        // id="email"
+                        name="name"
+                        type="text"
+                        required
+                        autoComplete="name"
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                        onChange={(e)=>setName(e.target.value)}
+                      />
+                    </div>
+                  </div>
                   <div>
                     <label
                       htmlFor="email"

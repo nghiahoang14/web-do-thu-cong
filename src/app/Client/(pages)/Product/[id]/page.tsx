@@ -6,10 +6,11 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { AddCart } from "@/app/components/Client/CartIcon/AddCart";
 import { BuyNow } from "@/app/components/Client/Checkout/BuyNow";
+import { ReviewProduct } from "@/app/components/Client/Review/ReviewProduct";
 
 export default function ProductDetailpage() {
   const params = useParams();
-  const id = params.id;
+  const id = params.id as string;
 
 
   const [product, setProduct] = useState<any>(null);
@@ -21,13 +22,18 @@ export default function ProductDetailpage() {
       try {
         const res = await axios.get(`http://localhost:3001/products/detail/${id}`);
         setProduct(res.data.data);
-      } catch (err) {
+      } catch (err:any) {
         console.error("Lỗi khi lấy sản phẩm:", err);
+          alert(err.response.data.message);
       }
     };
-    fetchProductDetail();
-  }, [id]);
+    
 
+  fetchProductDetail();
+  ;
+    
+  }, [id]);
+  
   if (!product) {
     return <div className="text-center mt-20 text-gray-500">Đang tải sản phẩm...</div>;
   }
@@ -89,7 +95,7 @@ const isOutOfStock = product.stock < 1;
       </div>
 
       <div className="px-[30px] w-[30%] py-[12px] cursor-pointer flex items-center justify-center border rounded-[5px] text-white bg-black">
-        <BuyNow product={product} quantity={quantity} />
+        <BuyNow product={product} quantity={quantity} title="Mua ngay"/>
       </div>
     </div>
   </>
@@ -101,6 +107,7 @@ const isOutOfStock = product.stock < 1;
           <p className="text-gray-700 whitespace-pre-line">{product.description}</p>
         </section>
       </div>
+     <ReviewProduct id={id}/>
     </div>
   );
 }

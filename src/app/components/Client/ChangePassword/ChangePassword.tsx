@@ -36,7 +36,7 @@ try{
     handleCloseModal();
 }catch(err:any){
     console.error(err);
-    alert("Đổi mật khẩu thất bại")
+    alert(err.response.data.message);
 }
 }
     return(

@@ -44,7 +44,7 @@ export const Login = () => {
       handleCloseModal();
     } catch (err: any) {
       console.log(err);
-      alert("Đăng nhập thất bại");
+      alert(err.response.data.message);
     }
   };
 

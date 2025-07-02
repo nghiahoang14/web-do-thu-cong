@@ -14,7 +14,7 @@ export const getCategoryById = async (id: string) => {
   return res.data;
 };
 
-// Create product
+// Create cate
 export const createCategory = async (CategoryData: any) => {
   const res = await axios.post(`${API_BASE_URL}/category/create`, CategoryData);
   return res.data;

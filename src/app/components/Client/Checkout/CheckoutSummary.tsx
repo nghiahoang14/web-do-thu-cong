@@ -4,15 +4,25 @@ import { CartItem } from "@/app/components/Client/CartIcon/CartItem";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-export const CheckoutSummary = (props:{onOrder:()=>void,shippingMethod:string,orderItems:any})=>{
-  const {onOrder,shippingMethod,orderItems}=props;
+import { useEffect } from "react";
+export const CheckoutSummary = (props:{onOrder:()=>void,shippingMethod:string, onTotalChange: (total: number) => void,orderItems:any})=>{
+  const {onOrder,shippingMethod,orderItems,onTotalChange}=props;
      const items = useSelector((state: RootState) => state.cart.items);
 
- const shippingFee = shippingMethod === "free" ? 0 : 40000;
+ 
+
+const shippingFee = shippingMethod === "free" ? 0 : 40000;
   const total = orderItems.reduce(
-    (acc:any, item:any) => acc + item.price * item.quantity,
+    (acc: number, item: any) => acc + item.price * item.quantity,
     0
   );
+  const totalFinal = total + shippingFee;
+
+  
+  useEffect(() => {
+    onTotalChange(totalFinal);
+  }, [totalFinal, onTotalChange]);
+
     return(
         <>
         <div className="h-screen border-l border-[#D9D9D9] flex-1">
@@ -41,7 +51,7 @@ export const CheckoutSummary = (props:{onOrder:()=>void,shippingMethod:string,or
                   <div className="flex items-center justify-between px-[20px] py-[20px] ">
                     <span>Tổng cộng</span>
                     <span className="text-red-600 font-[700] text-[22px]">
-                      {(total + shippingFee).toLocaleString()}₫{" "}
+                      {totalFinal.toLocaleString()}₫{" "}
                     </span>
                   </div>
                   <div className="flex items-center justify-between px-[20px] py-[20px] ">
