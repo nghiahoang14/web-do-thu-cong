@@ -8,7 +8,7 @@ import { AddCart } from "@/app/components/Client/CartIcon/AddCart";
 import { BuyNow } from "@/app/components/Client/Checkout/BuyNow";
 import { ReviewProduct } from "@/app/components/Client/Review/ReviewProduct";
 
-export default function ProductDetailpage() {
+export default function ProductDetailPage() {
   const params = useParams();
   const id = params.id as string;
 
