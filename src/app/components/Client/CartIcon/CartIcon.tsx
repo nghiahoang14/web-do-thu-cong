@@ -63,7 +63,7 @@ const items = Array.isArray(rawItems) ? rawItems : [];
               </div>
             ) : (
               <>
-             { items.map((item) => <CartItem key={item._id} item={item} />)}
+             { items.map((item:any) => <CartItem key={item._id} item={item} />)}
               <div className="mb-[15px] text-[18px]">
               <More href="/Client/Cart" title="Xem chi tiết "/>
              </div>

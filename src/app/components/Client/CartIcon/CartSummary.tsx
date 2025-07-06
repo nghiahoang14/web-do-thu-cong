@@ -10,7 +10,7 @@ export const CartSummary = () => {
   if (!items || items.length === 0) return null;
 
   const total = items.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item:any) => acc + item.price * item.quantity,
     0
   );
 

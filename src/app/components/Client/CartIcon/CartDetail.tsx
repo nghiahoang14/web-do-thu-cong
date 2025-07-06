@@ -4,11 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { CartItem } from "./CartItem";
 import { CartSummary } from "./CartSummary";
-import { removeFromCart } from "@/redux/cartSlice";
+
 
 export const CartDetail = () => {
   const items = useSelector((state: RootState) => state.cart.items);
-  const dispatch = useDispatch();
+ 
 
 
   
@@ -17,7 +17,7 @@ export const CartDetail = () => {
       <div className="mt-[40px]">
         <div className="flex gap-[40px]">
           <div className="w-[65%]">
-            {items.map((item) => (
+            {items.map((item:any) => (
               <CartItem
                 key={item._id}
                 item={item}

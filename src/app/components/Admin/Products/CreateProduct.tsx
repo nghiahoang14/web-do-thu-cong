@@ -1,9 +1,11 @@
 "use client";
 
+import { getCategories } from "@/services/api/admin/category.api";
+import { createProduct } from "@/services/api/admin/products.api";
 import {  useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const CreateProduct = ({ onSubmit,categories }: { onSubmit: (data: any) => void ,categories:any}) => {
+export const CreateProduct = () => {
     const router=useRouter();
   const [formData, setFormData] = useState({
     title: "",
@@ -18,7 +20,20 @@ export const CreateProduct = ({ onSubmit,categories }: { onSubmit: (data: any) =
       count: 0,
     },
   });
+ const [categories, setCategories] = useState<any[]>([])
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await getCategories();
+        setCategories(res.data); 
+      } catch (err) {
+        console.error("Không thể lấy danh mục", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
+    
   const handleChange = (
   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
 ) => {
@@ -47,12 +62,18 @@ export const CreateProduct = ({ onSubmit,categories }: { onSubmit: (data: any) =
 };
 
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
-    console.log(formData)
-    console.log("typeof category:", typeof formData.category, formData.category);
-    router.push("/Admin/Products");
+  const handleSubmit = async (e: React.FormEvent) => {
+     e.preventDefault();
+   try {
+      await createProduct(formData); 
+      
+      alert("Tạo sản phẩm thành công!");
+      router.push("/Admin/Products");
+    } catch (error) {
+      console.error("Lỗi khi tạo sản phẩm:", error);
+      alert("Tạo sản phẩm thất bại.");
+    }
+    
   };
 
   return (

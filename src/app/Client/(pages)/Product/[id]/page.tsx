@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import StarIcon from "@mui/icons-material/Star";
 import { useParams } from "next/navigation";
-import axios from "axios";
 import { AddCart } from "@/app/components/Client/CartIcon/AddCart";
 import { BuyNow } from "@/app/components/Client/Checkout/BuyNow";
 import { ReviewProduct } from "@/app/components/Client/Review/ReviewProduct";
+import { getProductById } from "@/services/api/client/product.api";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -20,8 +20,8 @@ export default function ProductDetailPage() {
     const fetchProductDetail = async () => {
       if (!id) return;
       try {
-        const res = await axios.get(`http://localhost:3001/products/detail/${id}`);
-        setProduct(res.data.data);
+       const res= await getProductById(id);
+        setProduct(res.data);
       } catch (err:any) {
         console.error("Lỗi khi lấy sản phẩm:", err);
           alert(err.response.data.message);

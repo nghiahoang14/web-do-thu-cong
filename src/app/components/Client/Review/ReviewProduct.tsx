@@ -1,17 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import StarIcon from "@mui/icons-material/Star";
+import { getReviewsByProductId } from "@/services/api/client/review.api";
 
 export const ReviewProduct = ({id}:{id:string}) => {
     const [reviews, setReviews] = useState<any[]>([]);
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axios.get(`http://localhost:3001/reviews/${id}`);
-        setReviews(res.data.reviews);
-        console.log(res.data);
+        const res = await getReviewsByProductId(id);
+        setReviews(res.reviews);
+        // console.log(res.data);
       } catch (err: any) {
         console.error("Lỗi khi lấy đánh giá:", err);
+        console.log(err.response.data.message)
       }
     };
     fetchReviews();

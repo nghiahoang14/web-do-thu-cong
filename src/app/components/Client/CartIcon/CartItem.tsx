@@ -2,8 +2,8 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart, decreaseQuantity } from "@/redux/cartSlice";
 import CloseIcon from '@mui/icons-material/Close';
-import axios from "axios";
 import { RootState } from "@/redux/store";
+import { RemoveFromCart, updateCart } from "@/services/api/client/cart.api";
 export const CartItem = (props: { item: any; className?: string ;showRemoveButton?: boolean,
 }) => {
   const { item, className, showRemoveButton} = props;
@@ -13,27 +13,18 @@ export const CartItem = (props: { item: any; className?: string ;showRemoveButto
     e.stopPropagation();
     dispatch(addToCart(item));
     try {
-      const response = await axios.patch(`http://localhost:3001/cart/update`, {
+      const response = await updateCart({
         productId: item._id,
-        userId: user?._id,
+        userId: user!._id,
         quantity:item.quantity +1
       });
       console.log(response)
-       if (response.status === 200 || response.status === 201) {
-      console.log( response.data);
-      // alert("✅ Đã thêm vào giỏ hàng thành công!");
-      
-    } else {
-      console.log( response.status);
-      // alert("❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!"); 
-    }
+     alert(response.message);
     } catch (err:any) {
       console.log(err);
        if (err.response && err.response.data && err.response.data.message) {
-      alert(`❌ ${err.response.data.message}`);
-    } else {
-      alert("❌ Đã xảy ra lỗi. Vui lòng thử lại sau.");
-    }
+      alert( err.response.data.message);
+    } 
     }
   };
   const handleDecrease =async (e: React.MouseEvent) => {
@@ -41,27 +32,16 @@ export const CartItem = (props: { item: any; className?: string ;showRemoveButto
     if (item.quantity > 1) {
       dispatch(decreaseQuantity(item._id));
        try {
-      const response = await axios.patch(`http://localhost:3001/cart/update`, {
+      const response = await updateCart({
         productId: item._id,
-        userId: user?._id,
+        userId: user!._id,
         quantity:item.quantity -1
-      });
+      }) ;
       console.log(response)
-       if (response.status === 200 || response.status === 201) {
-      console.log( response.data);
-      // alert("✅ Đã thêm vào giỏ hàng thành công!");
-      
-    } else {
-      console.log( response.status);
-      // alert("❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!"); 
-    }
+       alert(response.message);
     } catch (err:any) {
       console.log(err);
-       if (err.response && err.response.data && err.response.data.message) {
-      alert(`❌ ${err.response.data.message}`);
-    } else {
-      alert("❌ Đã xảy ra lỗi. Vui lòng thử lại sau.");
-    }
+     alert(err.response.data.message)
     }
     } else {
        await handleRemove();
@@ -70,28 +50,17 @@ export const CartItem = (props: { item: any; className?: string ;showRemoveButto
   const handleRemove = async()=>{
     dispatch(removeFromCart(item._id))
       try {
-      const response = await axios.delete(`http://localhost:3001/cart/remove`, {
-        data: {
+      const response = await RemoveFromCart({
+       
     productId: item._id,
-    userId: user?._id,
-  }
-      });
+    userId: user!._id,
+  
+      }) ;
       console.log(response)
-       if (response.status === 200 || response.status === 201) {
-      console.log( response.data);
-      // alert("✅ Đã thêm vào giỏ hàng thành công!");
-      
-    } else {
-      console.log( response.status);
-      // alert("❌ Không thể thêm vào giỏ hàng. Vui lòng thử lại!"); 
-    }
+       alert(response.message)
     } catch (err:any) {
       console.log(err);
-       if (err.response && err.response.data && err.response.data.message) {
-      alert(`❌ ${err.response.data.message}`);
-    } else {
-      alert("❌ Đã xảy ra lỗi. Vui lòng thử lại sau.");
-    }
+       alert(err.response.data.message)
     }
   }
   return (

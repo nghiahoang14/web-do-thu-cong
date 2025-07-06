@@ -9,8 +9,8 @@ import { CheckoutSummary } from "@/app/components/Client/Checkout/CheckoutSummar
 import { useEffect, useState, } from "react";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
+import { createOrder } from "@/services/api/client/order.api";
 
 
 export default function CheckoutPage() {
@@ -27,7 +27,7 @@ const pathname = usePathname();
 const Router=useRouter();
 useEffect(() => {
   const storedItem = localStorage.getItem("buyNowItem");
-
+console.log(storedItem);
   if (pathname === "/Client/Checkout" && storedItem) {
     const parsed = JSON.parse(storedItem);
     setOrderItems([parsed]);
@@ -36,12 +36,7 @@ useEffect(() => {
     setOrderItems(items); 
   }
 }, [pathname, items]);
-useEffect(() => {
-  if (pathname === "/Client/Checkout" && orderItems.length > 0 ) {
-    
-    localStorage.removeItem("buyNowItem");
-  }
-}, [orderItems, pathname]);
+
 
 const handleOrder = async () => {
     const {
@@ -70,7 +65,7 @@ const name = formName || user?.name;
     
     
     const orderPayload = {
-  userId: user?._id, 
+  userId: user!._id, 
   phone:phone,
   paymentMethod,  
   shippingMethod,
@@ -87,20 +82,23 @@ const name = formName || user?.name;
   totalPrice:totalFromChild
 };
 console.log(orderPayload);
-localStorage.removeItem("buyNowItem");
+
 
 try{
- const res = await axios.post("http://localhost:3001/order",orderPayload);
+ const res = await createOrder(  orderPayload);
  console.log(res);
- if(res.data.message){
-  alert(res.data.message);
- }
- const orderId = res.data.order._id;
- Router.push(`/Client/CheckoutConfirm?id=${orderId}`);
+ alert(res.message);
+ const orderId = res.order?._id;
+     const source = localStorage.getItem("buyNowItem") ? "buynow" : "cart";
+
+  
+    localStorage.removeItem("buyNowItem");
+ Router.push(`/Client/CheckoutConfirm?id=${orderId}&source=${source}`);
  
  
 }catch(err:any){
   console.error(err);
+  alert(err.response.data.message);
 }
 
 

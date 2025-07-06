@@ -8,7 +8,7 @@ import { Title } from "@/app/components/Client/Title/Title";
 import { useParams } from "next/navigation";
 import {  useState } from "react";
 
-export default function CategoryDetailage() {
+export default function CategoryDetailPage() {
      const params = useParams();
   const id = params.id;
   console.log(typeof id);

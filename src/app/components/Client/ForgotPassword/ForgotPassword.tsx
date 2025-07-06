@@ -2,6 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { Logo } from "../Logo/Logo";
 import axios from "axios";
+import { forgotPassword, resetPassword, verifyOtp } from "@/services/api/client/auth.api";
 
 export const ForgotPassword = ({ onClose }: { onClose: () => void }) => {
   const [email, setEmail] = useState("");
@@ -13,31 +14,31 @@ const [ConfirmNewPassword, setConfirmNewPassword] = useState("");
   const handleSendEmail = async (e: any) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3001/auth/password/forgot", {
+      const res = await forgotPassword(
         email,
-      });
+      ) ;
       console.log("Email sent:", res.data);
-      alert("Mã OTP đã được gửi đến email của bạn.");
+      alert(res.message);
       setStep("enterOtp"); // Chuyển sang bước nhập OTP
-    } catch (err) {
+    } catch (err:any) {
       console.error(err);
-      alert("Gửi email thất bại. Vui lòng kiểm tra lại.");
+      alert(err.response.data.message);
     }
   };
 
   const handleVerifyOtp = async (e: any) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3001/auth/password/otp", {
+      const res = await verifyOtp(
         email,
         otp,
-      });
+      ) ;
       console.log("OTP verified:", res.data);
-      alert("OTP hợp lệ. Bạn có thể đổi mật khẩu.");
+      alert(res.message);
       setStep("resetPassword");
-    } catch (err) {
+    } catch (err:any) {
       console.error(err);
-      alert("OTP không hợp lệ hoặc đã hết hạn.");
+      alert(err.response.data.message);
     }
   };
 
@@ -49,16 +50,16 @@ const handleResetPassword = async (e: any) => {
     return;
   }
   try {
-    const res = await axios.post("http://localhost:3001/auth/password/reset", {
+    const res = await resetPassword( {
       email,
        password: newPassword,
   confirmPassword: ConfirmNewPassword,
     });
-    alert("✅ Mật khẩu đã được đặt lại thành công.");
+    alert(res.message);
     onClose(); // đóng modal
-  } catch (err) {
+  } catch (err:any) {
     console.error(err);
-    alert("❌ Đặt lại mật khẩu thất bại.");
+    alert(err.response.data.message);
   }
 };
 

@@ -1,4 +1,5 @@
 import { RootState } from "@/redux/store";
+import { createReview } from "@/services/api/client/review.api";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -20,15 +21,15 @@ export const ReviewForm=({orderId,item}:{orderId:string,item:any})=>{
     }
 
     try {
-     const res= await axios.post("http://localhost:3001/reviews", {
+     const res= await createReview({
         product: item.product_id._id,
-        user: user?._id,
+        user: user!._id,
          order:   orderId, 
         rating,
         comment: reviewText,
-      });
+      }) ;
 
-      alert(res.data.message);
+      alert(res.message);
       setReviewText("");
       setRating(0);
       setShowReviewForm(false);

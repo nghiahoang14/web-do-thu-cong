@@ -1,11 +1,11 @@
 "use client";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
-import axios from "axios";
 import { Logo } from "../Logo/Logo";
 import {  useSelector } from "react-redux";
 
 import { RootState } from "@/redux/store";
+import { register } from "@/services/api/client/auth.api";
 export const Register =()=>{
     const [showModal, setShowModal] = useState(false);
     const [email,setEmail]= useState("");
@@ -29,12 +29,12 @@ if(password!==confirmPassword){
     return
 }
 try{
-    const res = await axios.post("http://localhost:3001/auth/register",{
-      name,
+    const res = await register({
+       name,
        email,
        password,
     });
-    alert("đăng ký thành công");
+    alert(res.message);
     console.log(res);
     handleCloseModal();
 }catch(err:any){
@@ -53,7 +53,7 @@ try{
       {showModal && (
         <div
           className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 backdrop-blur-sm"
-          onClick={handleCloseModal} // Click nền để đóng
+          onClick={handleCloseModal} 
         >
           <div className="relative  rounded-[10px] bg-white px-[10px]">
             <button

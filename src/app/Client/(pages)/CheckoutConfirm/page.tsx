@@ -7,33 +7,34 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckIcon from "@mui/icons-material/Check";
 import { useEffect } from "react";
 import { clearCart } from "@/redux/cartSlice";
-import axios from "axios";
 import { RootState } from "@/redux/store";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { ClearCart } from "@/services/api/client/cart.api";
 
 export default function CheckoutConfirmPage() {
-  const id= useSearchParams().get("id");
-
+    const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const source = searchParams.get("source");
 console.log(id);
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
 
   const clearCartOnServer = async (userId: string) => {
   try {
-    await axios.delete(`http://localhost:3001/cart/clear/${userId}`);
+    await ClearCart(userId);
     console.log("🗑️ Giỏ hàng đã xóa trên server");
-  } catch (err) {
-    console.error("❌ Lỗi khi xóa giỏ hàng server:", err);
+  } catch (err:any) {
+    console.error( err.response.data.message);
   }
 };
 
 
  useEffect(() => {
   const clearAll = async () => {
-    const isBuyNow = localStorage.getItem("buyNowItem");
+   
 
-    if (!isBuyNow && user?._id) {
+    if (source !== "buynow" && user?._id) {
       
       await clearCartOnServer(user._id);
       dispatch(clearCart());

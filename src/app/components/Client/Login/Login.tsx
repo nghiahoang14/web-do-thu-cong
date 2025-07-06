@@ -8,7 +8,8 @@ import { login } from "@/redux/authSlice";
 import { setUserId, fetchCartFromServer } from "@/redux/cartSlice";
 import { RootState } from "@/redux/store";
 import { ForgotPassword } from "../ForgotPassword/ForgotPassword";
-
+import { LoginAcc } from "@/services/api/client/auth.api";
+import { getCart } from "@/services/api/client/cart.api";
 export const Login = () => {
   const [showModal, setShowModal] = useState(false);
   const [showForgotModal, setShowForgotModal] = useState(false);
@@ -25,22 +26,23 @@ export const Login = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3001/auth/login", {
+      const res = await LoginAcc({
         email,
         password,
-      });
-      const { user } = res.data;
+      }) ;
+      console.log(res)
+      const { user } = res;
       dispatch(setUserId(user._id));
       dispatch(login(user));
 
-      const cartRes = await axios.get(`http://localhost:3001/cart/${user._id}`);
-      const transformedItems = cartRes.data.data.items.map((item: any) => ({
+      const cartRes = await getCart(user._id);
+      const transformedItems = cartRes.data.items.map((item: any) => ({
         ...item.productId,
         quantity: item.quantity,
       }));
       dispatch(fetchCartFromServer(transformedItems));
 
-      alert("Đăng nhập thành công");
+      alert(res.message);
       handleCloseModal();
     } catch (err: any) {
       console.log(err);

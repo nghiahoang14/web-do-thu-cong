@@ -1,19 +1,19 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3001/admin";
+const API_BASE_URL = "http://localhost:3001/admin/orders";
 
 // Get all orders
 export const getOrders = async () => {
-  const res = await axios.get(`${API_BASE_URL}/orders`);
+  const res = await axios.get(`${API_BASE_URL}`);
   return res.data;
 };
 // Get detail orders
 export const getDetailOrder = async (id :string) => {
-  const res = await axios.get(`${API_BASE_URL}/orders/detail/${id}`);
+  const res = await axios.get(`${API_BASE_URL}/detail/${id}`);
   return res.data;
 };
 // delete orders
 export const DeleteOrder = async (id :string) => {
-  const res = await axios.delete(`${API_BASE_URL}/orders/delete/${id}`);
+  const res = await axios.delete(`${API_BASE_URL}/delete/${id}`);
   return res.data;
 };

@@ -1,29 +1,44 @@
 "use client";
 
+import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import {
+  getCategoryById,
+  updateCategory,
+} from "@/services/api/admin/category.api";
 
-export const UpdateCategory = ({
-  categories,
-  onSubmit,
-}: {
-  categories: any;
-  onSubmit: (data: any) => void;
-}) => {
-  const [formData, setFormData] = useState({
+export const UpdateCategory = () => {
+  const router = useRouter();
+  const param = useParams();
+  const id=param.id;
+
+  const [formData, setFormData] = useState<{
+    name: string;
+    description: string;
+    image?: string;
+  }>({
     name: "",
     description: "",
-    image: "",
   });
 
   useEffect(() => {
-    if (categories) {
-      setFormData({
-        name: categories.name || "",
-        description: categories.description || "",
-        image: categories.image || "",
-      });
-    }
-  }, [categories]);
+    if (!id) return;
+    const fetchCategory = async () => {
+      try {
+        const res = await getCategoryById(id as string);
+        setFormData({
+          name: res.data.name || "",
+          description: res.data.description || "",
+          image: res.data.image,
+        });
+      } catch (err) {
+        alert("Không tìm thấy danh mục");
+        router.push("/Admin/Categories");
+      }
+    };
+    fetchCategory();
+  }, [id, router]);
+
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -31,23 +46,24 @@ export const UpdateCategory = ({
     const { name, value, files } = e.target as HTMLInputElement;
 
     if (name === "image" && files && files[0]) {
-      const imageUrl = URL.createObjectURL(files[0]);
-      setFormData((prev) => ({
-        ...prev,
-        image: imageUrl,
-      }));
+      const url = URL.createObjectURL(files[0]);
+      setFormData((p) => ({ ...p, image: url }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData((p) => ({ ...p, [name]: value }));
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
-    console.log("Form cập nhật danh mục:", formData);
+    try {
+      await updateCategory(id as string, formData);           
+      alert("Sửa danh mục thành công!");
+      router.push("/Admin/Categories");
+    } catch (err) {
+      alert("Sửa danh mục thất bại.");
+      console.error(err);
+    }
   };
 
   return (
@@ -56,7 +72,9 @@ export const UpdateCategory = ({
         onSubmit={handleSubmit}
         className="space-y-4 max-w-xl w-full bg-white p-6 rounded shadow"
       >
-        <h2 className="text-2xl font-bold text-center mb-4">Cập nhật danh mục</h2>
+        <h2 className="text-2xl font-bold text-center mb-4">
+          Cập nhật danh mục
+        </h2>
 
         <div>
           <label className="block mb-1 font-medium">Tên danh mục</label>
@@ -86,11 +104,17 @@ export const UpdateCategory = ({
           <input
             type="file"
             name="image"
-          
+            accept="image/*"
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
           />
-         
+          {formData.image && (
+            <img
+              src={formData.image}
+              alt="preview"
+              className="w-32 h-32 object-cover rounded mt-2"
+            />
+          )}
         </div>
 
         <button

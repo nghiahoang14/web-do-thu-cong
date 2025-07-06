@@ -1,4 +1,4 @@
-"use client"
+
 import { CategoryList } from "../components/Client/Category/CategoryList";
 import { Collaborator } from "../components/Client/Collaborator/Collaborator";
 import { Map } from "../components/Client/Map/Map";

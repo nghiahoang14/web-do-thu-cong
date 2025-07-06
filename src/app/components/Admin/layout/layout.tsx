@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ReactNode, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type AdminLayoutProps = {
   children: ReactNode;
@@ -12,17 +12,16 @@ type AdminLayoutProps = {
 export const AdminLayout = ({ children }: AdminLayoutProps) => {
   const [username, setUsername] = useState("Admin");
   const router = useRouter();
+  const pathname = usePathname();
 
+  // ✅ Hook luôn được gọi, bất kể pathname
   useEffect(() => {
     const userCookie = Cookies.get("user");
     if (userCookie) {
       try {
         const user = JSON.parse(userCookie);
-        console.log(user)
         if (user?.name) setUsername(user.name);
-      } catch {
-
-      }
+      } catch {}
     }
   }, []);
 
@@ -31,6 +30,11 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
     Cookies.remove("user");
     router.push("/Admin/Login");
   };
+
+ 
+  if (pathname === "/Admin/Login") {
+    return <>{children}</>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

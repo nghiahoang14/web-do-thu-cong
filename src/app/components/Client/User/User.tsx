@@ -26,11 +26,13 @@ const dispatch = useDispatch();
         <AccountCircleIcon  className="text-gray-600"/>
       </div>
       {isOpen && (
-        <div className=" absolute bottom-[-60px] right-[35px] shadow-lg rounded-[5px] bg-white px-[12px] py-[12px] text-[18px] ">
+        <div className=" absolute right-[2%] top-[70%] shadow-lg rounded-[5px] bg-white  text-[18px] ">
           <ul>
-            
+            <li className="text-center font-semibold text-blue-600 py-2 px-3 border-b border-gray-200 bg-blue-50 rounded-t-md">
+        {user.name}
+      </li>
             <ChangePassword/>
-            <li className="flex items-center cursor-pointer gap-[5px] mb-[7px] hover:text-orange-500">
+            <li className="flex items-center cursor-pointer gap-[5px] py-1 px-3 mb-[7px] hover:text-orange-500">
               <LogoutOutlinedIcon />
               <a onClick={() => {
                 dispatch(clearCart());

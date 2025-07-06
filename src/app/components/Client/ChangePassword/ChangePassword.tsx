@@ -2,9 +2,9 @@ import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import { useState } from "react";
 import { Logo } from "../Logo/Logo";
 import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { changePassword } from "@/services/api/client/auth.api";
 export const ChangePassword = ()=>{
     const [showModal, setShowModal] = useState(false);
         const [Newpassword,setNewPassword]= useState("");
@@ -25,13 +25,13 @@ if(Newpassword!==confirmPassword){
     return
 }
 try{
-    const res = await axios.patch("http://localhost:3001/auth/password/change",{
-         email:user?.email,
+    const res =  await changePassword({
+         email:user!.email,
         CurrentPassword,
         Newpassword,
         
     });
-    alert("Đổi mật khẩu thành công");
+    alert(res.message);
     console.log(res);
     handleCloseModal();
 }catch(err:any){
@@ -41,7 +41,7 @@ try{
 }
     return(
         <>
-        <li onClick={handleShowModal} className="flex items-center cursor-pointer mb-[7px] gap-[5px] hover:text-orange-500">
+        <li onClick={handleShowModal} className=" py-1 px-3 flex items-center cursor-pointer mb-[7px] gap-[5px] hover:text-orange-500">
                       <KeyOutlinedIcon />
                       <a className="text-[16px]"> Thay đối mật khẩu </a>
         </li>

@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import "../../../globals.css";
 import { Title } from "@/app/components/Client/Title/Title";
 import { AboutUs } from "@/app/components/Client/AboutUs/AboutUs";
-import { Search } from "@/app/components/Client/Search/Search";
+
 
 
 

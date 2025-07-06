@@ -1,41 +1,38 @@
 "use client";
 
+import { createCategory } from "@/services/api/admin/category.api";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export const CreateCategory = ({ onSubmit }: { onSubmit: (data: any) => void }) => {
-  const router = useRouter();
-
+export const CreateCategory = () => {
+    const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    image: "",
+    image: "",         
   });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
-
     if (name === "image" && files && files[0]) {
-      const imageUrl = URL.createObjectURL(files[0]);
-      setFormData((prev) => ({
-        ...prev,
-        image: imageUrl,
-      }));
+      setFormData((p) => ({ ...p, image: URL.createObjectURL(files[0]) }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData((p) => ({ ...p, [name]: value }));
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
-    
-    router.push("/Admin/Categories");
+    try {
+      await createCategory(formData);         
+      alert("Tạo danh mục thành công!");
+      router.push("/Admin/Categories");
+    } catch (err) {
+      alert("Tạo danh mục thất bại.");
+      console.error(err);
+    }
   };
 
   return (

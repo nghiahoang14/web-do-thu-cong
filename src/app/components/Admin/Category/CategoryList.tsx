@@ -80,7 +80,7 @@ export const CategoryList = () => {
             <td className="px-4 py-2 border">{cate.description}</td>
                 <td className="px-4 py-2 border">
                   <img
-                    src={cate.image}
+                    src={cate.image|| "/default-category.png"}
                     alt={cate.name}
                     className="w-12 h-12 object-cover mx-auto rounded"
                   />

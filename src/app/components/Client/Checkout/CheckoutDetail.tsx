@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Logo } from "../Logo/Logo";
 import { OrderItem } from "./OrderItem";
+import { getOrderById } from "@/services/api/client/order.api";
 
 export const CheckoutDetail = () => {
   const users = useSelector((state: RootState) => state.auth.user);
@@ -20,14 +21,12 @@ export const CheckoutDetail = () => {
 
     const fetchOrder = async () => {
       try {
-        const res = await axios.get(`http://localhost:3001/order/${id}`);
+        const res = await getOrderById(id);
         console.log("✅ Dữ liệu order:", res.data);
-        setOrder(res.data.order);
+        setOrder(res.order);
       } catch (err: any) {
-        console.error("❌ Lỗi API:", err.message);
-        if (err.response) {
-          console.error("❌ Chi tiết:", err.response.data);
-        }
+        console.error("❌ Lỗi API:", err);
+       alert(err.response.data.message)
       }
     };
 
@@ -76,7 +75,7 @@ export const CheckoutDetail = () => {
           {`Đơn hàng #${id} (${order?.items.length || 0} sản phẩm)`}
         </div>
 {order?.items?.map((item: any, index: number) => (
-      <OrderItem key={item._id} item={item} id={item._id}  isLast={index === order.items.length - 1} />
+      <OrderItem key={item._id} item={item} id={item._id} orderId={id || ""} isLast={index === order.items.length - 1} />
 ))}
         <div className="flex justify-between py-[10px] border-t border-[#ddd] px-[15px]">
           <span>Tạm tính</span>

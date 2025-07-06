@@ -1,28 +1,27 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import axios from "axios";
-
-export interface Category {
-  _id: string;
-  name: string;
-}
+import { getCategories } from "@/services/api/client/category.api";
 
 export const CategoryMenu = () => {
-  const [category, setCategory] = useState<Category[]>([]);
+  const [category, setCategory] = useState([]);
 
   useEffect(() => {
-    axios
-      .get<{ data: Category[] }>("http://localhost:3001/category")
-      .then((res) => setCategory(res.data.data))
-      .catch((err) => {
-        console.error("Lỗi khi gọi API danh mục:", err);
-      });
+    const fetchCategories = async () => {
+      try {
+        const res = await getCategories(); 
+        setCategory(res.data); 
+      } catch (err: any) {
+        console.error("Lỗi khi gọi API danh mục:", err.response?.data?.message);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   return (
     <div className="w-[20%]">
       <ul>
-        {category.map((item, index) => (
+        {category.map((item: any, index) => (
           <div key={index}>
             <li className="cursor-pointer hover:text-red-500 py-[10px] text-[18px] font-[500]">
               <Link href={`/Client/Category/${item._id}`}>{item.name}</Link>

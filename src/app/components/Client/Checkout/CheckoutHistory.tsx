@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { OrderItem } from "./OrderItem";
+import { getOrdersByUserId } from "@/services/api/client/order.api";
 
 export const CheckoutHistory = () => {
   const [orderHistory, setOrderHistory] = useState<any[]>([]);
@@ -14,12 +15,12 @@ console.log(orderHistory)
     if (!user?._id) return;
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:3001/order/user/${user._id}`
-        );
-        setOrderHistory(res.data.orders || []);
-      } catch (err) {
+        const res = await getOrdersByUserId(user._id);
+        setOrderHistory(res.orders || []);
+        console.log(res.message)
+      } catch (err:any) {
         console.error(err);
+        console.log(err.response.data.message)
       }
     };
     fetchOrders();

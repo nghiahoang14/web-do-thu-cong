@@ -1,35 +1,26 @@
+"use client"
 import { useEffect, useState } from "react";
 import { More } from "../More/More"
 import { Title } from "../Title/Title"
 import { Category } from "./Category"
-import axios from "axios";
-export interface Category{
-  _id:string,
-    name:string,
-    description:string,
-    parent:string,
-}
+
+import { getCategories } from "@/services/api/client/category.api";
+
 export const CategoryList = (props:{limit?:number})=>{
   const {limit}=props;
-   const [category, SetCategory] = useState<Category[]>([]);
-     const [load, setLoad] = useState<Boolean>(true);
+   const [category, SetCategory] = useState([]);
+  
      
    useEffect(()=>{
-      axios.get<{data:Category[]}>("http://localhost:3001/category")
-      .then((res)=>{
-        console.log(res);
-          let data = res.data.data;
-          console.log(data)
-          // console.log(res.data.message);
-          SetCategory(data);
-      })
-      .catch((err) => {
-        console.error("Lỗi khi gọi API sản phẩm:", err);
-         alert(err.response.data.message);
-      })
-      .finally(() => {
-        setLoad(false);
-      });
+      const fetchCategories=async ()=>{
+        try{
+          const res= await  getCategories();
+          SetCategory(res.data);
+        }catch(err:any){
+          console.error(err.response.data.message)
+        }
+      }
+      fetchCategories();
    },[])
    const displayedCategories = limit ? category.slice(0, limit) : category;
     return (
