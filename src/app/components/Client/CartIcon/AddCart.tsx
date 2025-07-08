@@ -11,6 +11,10 @@ export const AddCart = (props: { product: any; quantity?: number }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleCart = async () => {
+     if (!user) {
+      alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ.");
+      return;
+    }
     if (!product || product.stock < 1) return;
 
     const quantityToAdd = quantity || 1;
@@ -30,5 +34,7 @@ export const AddCart = (props: { product: any; quantity?: number }) => {
     }
   };
 
-  return <AddShoppingCartIcon onClick={handleCart} className="cursor-pointer hover:text-orange-500" />;
+  return <AddShoppingCartIcon onClick={handleCart} className={`cursor-pointer ${
+        !user ? " cursor-not-allowed" : "hover:text-orange-500"
+      }`} />;
 };

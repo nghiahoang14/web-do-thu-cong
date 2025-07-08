@@ -11,8 +11,10 @@ export const CartIcon = () => {
   const toggleCart = () => {
     setIsopen(!isOpen);
   };
-  const rawItems = useSelector((state: RootState) => state.cart.items);
-const items = Array.isArray(rawItems) ? rawItems : [];
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const user = useSelector((state: RootState) => state.auth.user);
+
+const items = Array.isArray(cartItems) ? cartItems : [];
 
   const cartCount = items.reduce(
     (total, item) => total + (item.quantity || 0),
@@ -38,6 +40,7 @@ const items = Array.isArray(rawItems) ? rawItems : [];
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
+  if (!user) return null;
   return (
     <>
       <div

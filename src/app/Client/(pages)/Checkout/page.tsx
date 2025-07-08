@@ -18,26 +18,46 @@ export default function CheckoutPage() {
   const [shippingData, setShippingData] = useState<any>({});
   const [methodData, setMethodData] = useState<any>({});
   const [showError, setShowError] = useState(false);
-  const items = useSelector((state: RootState) => state.cart.items);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 const user = useSelector((state: RootState) => state.auth.user);
  const [orderItems, setOrderItems] = useState<any[]>([]);
  const [totalFromChild, setTotalFromChild] = useState(0);
 const pathname = usePathname();
-
+  const [isBuyNow,   setIsBuyNow]   = useState(false);
 const Router=useRouter();
+  useEffect(() => {
+    const stored = localStorage.getItem("buyNowItem");
+  if (pathname === "/Client/Checkout" && stored) {
+    const parsed = JSON.parse(stored);
+    setOrderItems([parsed]); 
+          setIsBuyNow(true);
+          
+    } else {
+      setOrderItems(cartItems);
+      setIsBuyNow(false);
+    }
+  
+  }, [pathname, cartItems]);                        
+
+  
+//   useEffect(() => {
+//   if (pathname === "/Client/Checkout" && orderItems.length > 0 ) {
+
+//     localStorage.removeItem("buyNowItem");
+//   }
+// }, [orderItems,pathname]);
 useEffect(() => {
-  const storedItem = localStorage.getItem("buyNowItem");
-console.log(storedItem);
-  if (pathname === "/Client/Checkout" && storedItem) {
-    const parsed = JSON.parse(storedItem);
-    setOrderItems([parsed]);
-   
-  } else {
-    setOrderItems(items); 
-  }
-}, [pathname, items]);
+  const handleRouteChange = () => {
+    const pathname = window.location.pathname;
+    if (pathname !== "/Client/Checkout") {
+      localStorage.removeItem("buyNowItem");
+      sessionStorage.removeItem("hasConsumedBuyNow");
+    }
+  };
 
-
+  window.addEventListener("popstate", handleRouteChange);
+  return () => window.removeEventListener("popstate", handleRouteChange);
+}, []);
 const handleOrder = async () => {
     const {
         email: formEmail,
@@ -89,7 +109,7 @@ try{
  console.log(res);
  alert(res.message);
  const orderId = res.order?._id;
-     const source = localStorage.getItem("buyNowItem") ? "buynow" : "cart";
+     const source = isBuyNow ? "buynow" : "cart";
 
   
     localStorage.removeItem("buyNowItem");

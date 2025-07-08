@@ -1,50 +1,6 @@
-"use client"
-import { ReduxProvider } from "@/redux/ReduxProvider";
 
-import { Search } from "../components/Client/Search/Search";
-import { Sider } from "../components/Client/Sider/Sider";
+import ClientLayout from "../components/Client/layout/ClientLayout";
 
-
-import "../globals.css";
-
-import { Footer } from "../components/Client/Footer/Footer";
-import { usePathname } from 'next/navigation';
-
-
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-    const pathname = usePathname();
-
-  const noLayoutRoutes = [
-    "/Client/Checkout",
-    "/Client/ConfirmCheckout",
-    "/Client/OrderHistory"
-  ];
-
-  const hideLayout = noLayoutRoutes.some((route) => pathname.startsWith(route));
-
-  return (
-    
-        <ReduxProvider>
-          
-          
-           {!hideLayout ? <Sider /> : <div style={{ height: 0 }} />}
-          
-          <div className="container mx-auto ">
-                {!hideLayout &&<Search />}
-            <div className="">
-              <main className="">{children}</main>
-            </div>
-          </div>
-          <div className="">
-                {!hideLayout &&<Footer />}
-          </div>
-          
-        </ReduxProvider>
-      
-  );
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <ClientLayout>{children}</ClientLayout>;
 }

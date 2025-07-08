@@ -22,7 +22,7 @@ export const CheckoutDetail = () => {
     const fetchOrder = async () => {
       try {
         const res = await getOrderById(id);
-        console.log("✅ Dữ liệu order:", res.data);
+        console.log("✅ Dữ liệu order:", res.data,1);
         setOrder(res.order);
       } catch (err: any) {
         console.error("❌ Lỗi API:", err);

@@ -47,13 +47,13 @@ const [selectedWard, setSelectedWard] = useState<any>(null);
   ]);
 
   useEffect(() => {
-    fetch("https://provinces.open-api.vn/api/p/")
+    fetch("http://provinces.open-api.vn/api/p/")
       .then((res) => res.json())
       .then((data) => setProvinces(data));
   }, []);
 useEffect(() => {
   if (selectedProvince?.code) {
-    fetch(`https://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`)
+    fetch(`http://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`)
       .then((res) => res.json())
       .then((data) => {
         setDistricts(data.districts || []);
@@ -66,7 +66,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (selectedDistrict?.code) {
-    fetch(`https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`)
+    fetch(`http://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`)
       .then((res) => res.json())
       .then((data) => {
         setWards(data.wards || []);

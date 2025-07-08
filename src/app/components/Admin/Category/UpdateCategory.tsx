@@ -11,14 +11,16 @@ export const UpdateCategory = () => {
   const router = useRouter();
   const param = useParams();
   const id=param.id;
-
+ const [imageFile, setImageFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<{
     name: string;
     description: string;
     image?: string;
+     
   }>({
     name: "",
     description: "",
+    image: "",
   });
 
   useEffect(() => {
@@ -40,24 +42,30 @@ export const UpdateCategory = () => {
   }, [id, router]);
 
 
-  const handleChange = (
+ const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
-
     if (name === "image" && files && files[0]) {
-      const url = URL.createObjectURL(files[0]);
-      setFormData((p) => ({ ...p, image: url }));
+      setImageFile(files[0]);
+      setFormData((p) => ({ ...p, image: URL.createObjectURL(files[0]) }));
     } else {
       setFormData((p) => ({ ...p, [name]: value }));
     }
   };
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const fd = new FormData();
+    fd.append("name", formData.name);
+    fd.append("description", formData.description);
+    if (imageFile) {
+      fd.append("image", imageFile); 
+    }
+
     try {
-      await updateCategory(id as string, formData);           
+      await updateCategory(id as string, fd); 
       alert("Sửa danh mục thành công!");
       router.push("/Admin/Categories");
     } catch (err) {
@@ -65,7 +73,6 @@ export const UpdateCategory = () => {
       console.error(err);
     }
   };
-
   return (
     <div className="flex justify-center mt-10">
       <form

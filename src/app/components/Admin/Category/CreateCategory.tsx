@@ -6,35 +6,50 @@ import { useState } from "react";
 
 export const CreateCategory = () => {
     const router = useRouter();
+     const [imageFile, setImageFile] = useState<File | null>(null); 
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     image: "",         
   });
 
-  const handleChange = (
+ const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
+
     if (name === "image" && files && files[0]) {
-      setFormData((p) => ({ ...p, image: URL.createObjectURL(files[0]) }));
+      setImageFile(files[0]);                         
+      setImagePreview(URL.createObjectURL(files[0])); 
     } else {
-      setFormData((p) => ({ ...p, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
+ 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!imageFile) {
+      alert("Vui lòng chọn hình ảnh!");
+      return;
+    }
+
     try {
-      await createCategory(formData);         
+      const fd = new FormData();
+      fd.append("name", formData.name);
+      fd.append("description", formData.description);
+      fd.append("image", imageFile); 
+
+      await createCategory(fd);
+
       alert("Tạo danh mục thành công!");
       router.push("/Admin/Categories");
     } catch (err) {
+      console.error("Lỗi khi tạo danh mục:", err);
       alert("Tạo danh mục thất bại.");
-      console.error(err);
     }
   };
-
   return (
     <div className="flex justify-center mt-10">
       <form
@@ -66,7 +81,7 @@ export const CreateCategory = () => {
           />
         </div>
 
-        <div>
+         <div>
           <label className="block mb-1 font-medium">Hình ảnh</label>
           <input
             type="file"
@@ -74,10 +89,11 @@ export const CreateCategory = () => {
             accept="image/*"
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
+            required
           />
-          {formData.image && (
+          {imagePreview && (
             <img
-              src={formData.image}
+              src={imagePreview}
               alt="Preview"
               className="w-32 h-32 object-cover rounded mt-2"
             />

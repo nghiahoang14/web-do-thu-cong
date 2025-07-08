@@ -1,9 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Product } from '@/app/components/Client/Products/ProductList';
 
-interface CartItem extends Product {
-  quantity: number;
+export interface CartItem {
+  _id: string;
+  title: string;
+  price: number;
+  description?: string;
+  category?: string;
+  image?: string;
+  stock?: number;
+  rating?: { rate: number; count: number };
+  status?: 'active' | 'inactive' | 'out_of_stock';
+  deleted?: boolean;
+  quantity: number;          
 }
+
 
 interface CartState {
   items: CartItem[];
@@ -19,46 +29,46 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setUserId: (state, action: PayloadAction<string>) => {
-      if (state.userId !== action.payload) {
-     
-      }
+
+    setUserId: (state, action: PayloadAction<string | null>) => {
       state.userId = action.payload;
     },
+
+   
     fetchCartFromServer: (state, action: PayloadAction<CartItem[]>) => {
-       console.log("📦 Payload to Redux:", action.payload);
       state.items = action.payload;
     },
-    addToCart: (state, action: PayloadAction<Product>) => {
+
+    addToCart: (state, action: PayloadAction<CartItem>) => {
       const product = action.payload;
-
-      // ✅ Đảm bảo state.items tồn tại
-      if (!Array.isArray(state.items)) {
-        state.items = [];
-      }
-
-      const existingItem = state.items.find(item => item._id === product._id);
+      const existingItem = state.items.find(i => i._id === product._id);
 
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += product.quantity || 1;
       } else {
         state.items.push({ ...product, quantity: product.quantity || 1 });
       }
     },
+
     removeFromCart: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter(item => item._id !== action.payload);
+      state.items = state.items.filter(i => i._id !== action.payload);
     },
-    clearCart: (state) => {
+
+  
+    clearCart: state => {
       state.items = [];
     },
+
+    
     decreaseQuantity: (state, action: PayloadAction<string>) => {
-      const item = state.items.find((item) => item._id === action.payload);
-      if (item && item.quantity && item.quantity > 1) {
+      const item = state.items.find(i => i._id === action.payload);
+      if (item && item.quantity > 1) {
         item.quantity -= 1;
       }
-    }
-  }
+    },
+  },
 });
+
 
 export const {
   addToCart,
@@ -66,7 +76,7 @@ export const {
   clearCart,
   decreaseQuantity,
   setUserId,
-  fetchCartFromServer
+  fetchCartFromServer,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

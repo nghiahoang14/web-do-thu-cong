@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 
 export const CreateProduct = () => {
     const router=useRouter();
+    const [imageFile, setImageFile]   = useState<File | null>(null);  
+  const [imagePreview, setImagePreview] = useState<string>("")
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -35,45 +37,54 @@ export const CreateProduct = () => {
 
     
   const handleChange = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-) => {
-  const { name, value, files } = e.target as HTMLInputElement;
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, files } = e.target as HTMLInputElement;
 
-  if (name === "image" && files && files[0]) {
-    const imageUrl = URL.createObjectURL(files[0]);
-    setFormData((prev) => ({
-      ...prev,
-      image: imageUrl,
-    }));
-  } else if (name === "rate" || name === "count") {
-    setFormData((prev) => ({
-      ...prev,
-      rating: {
-        ...prev.rating,
-        [name]: value,
-      },
-    }));
-  } else {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-};
+    if (name === "image" && files && files[0]) {
+      setImageFile(files[0]);                                 // lưu file
+      setImagePreview(URL.createObjectURL(files[0]));         // tạo preview
+    } else if (name === "rate" || name === "count") {
+      setFormData((prev) => ({
+        ...prev,
+        rating: { ...prev.rating, [name]: value },
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
 
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
-     e.preventDefault();
-   try {
-      await createProduct(formData); 
+    e.preventDefault();
+
+    if (!imageFile) {                
+      alert("Vui lòng chọn hình ảnh!");
+      return;
+    }
+
+    try {
+      /* Tạo FormData */
+      const fd = new FormData();
+      fd.append("title", formData.title);
+      fd.append("price", formData.price);
+      fd.append("description", formData.description);
+      fd.append("category", formData.category);
+      fd.append("stock", String(formData.stock));
+      fd.append("status", formData.status);
+      fd.append("rate", String(formData.rating.rate));
+      fd.append("count", String(formData.rating.count));
+      fd.append("image", imageFile);             
+
       
+      await createProduct(fd);
+
       alert("Tạo sản phẩm thành công!");
       router.push("/Admin/Products");
-    } catch (error) {
-      console.error("Lỗi khi tạo sản phẩm:", error);
+    } catch (err) {
+      console.error("Lỗi khi tạo sản phẩm:", err);
       alert("Tạo sản phẩm thất bại.");
     }
-    
   };
 
   return (
@@ -135,7 +146,7 @@ export const CreateProduct = () => {
           </select>
         </div>
 
-        <div>
+       <div>
           <label className="block mb-1 font-medium">Hình ảnh</label>
           <input
             type="file"
@@ -143,9 +154,14 @@ export const CreateProduct = () => {
             accept="image/*"
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
+            required
           />
-          {formData.image && (
-            <img src={formData.image} alt="Preview" className="w-32 h-32 object-cover rounded mt-2" />
+          {imagePreview && (
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="w-32 h-32 object-cover rounded mt-2"
+            />
           )}
         </div>
 

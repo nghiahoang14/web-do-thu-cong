@@ -10,7 +10,7 @@ export const UpdateProduct = (
 
 ) => {
    
-    // console.log(product.category,1);
+    
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -29,7 +29,8 @@ const param = useParams();
       const router = useRouter();
   const [product, setProduct] = useState<any>(null);
    const [categories, setCategories] = useState<any[]>([])
-   
+    const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
     useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -71,51 +72,57 @@ const param = useParams();
           rate: product.rating?.rate?.toString() || "",
           count: product.rating?.count?.toString() || "",
         },
+       
       });
+       setImagePreview(product.image);
     }
   }, [product,categories]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+ const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
 
-    if (name === "rate" || name === "count") {
+    if (name === "image" && files && files[0]) {
+      setImageFile(files[0]);                         
+      setImagePreview(URL.createObjectURL(files[0])); 
+    } else if (name === "rate" || name === "count") {
       setFormData((prev) => ({
         ...prev,
-        rating: {
-          ...prev.rating,
-          [name]: value,
-        },
-      }));
-    } else if (name === "image" && files && files[0]) {
-      const imageUrl = URL.createObjectURL(files[0]);
-      setFormData((prev) => ({
-        ...prev,
-        image: imageUrl,
+        rating: { ...prev.rating, [name]: value },
       }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-   try {
-      await updateProduct(id as string,formData); 
-      alert("Sửa sản phẩm thành công!");
-      router.push("/Admin/Products");
-    } catch (error:any) {
-      console.error("Lỗi khi sửa sản phẩm:", error);
-      alert("Sửa sản phẩm thất bại.");
-     
-    }
-  
-  };
+    if (!id) return;
 
+    try {
+      const fd = new FormData();
+      fd.append("title", formData.title);
+      fd.append("price", formData.price);
+      fd.append("description", formData.description);
+      fd.append("category", formData.category);
+      fd.append("stock", formData.stock);
+      fd.append("status", formData.status);
+      fd.append("rate", formData.rating.rate);
+      fd.append("count", formData.rating.count);
+
+  
+      if (imageFile) fd.append("image", imageFile);
+
+      await updateProduct(id as string, fd);
+
+      alert("Cập nhật sản phẩm thành công!");
+      router.push("/Admin/Products");
+    } catch (err) {
+      console.error("Lỗi khi cập nhật:", err);
+      alert("Cập nhật sản phẩm thất bại.");
+    }
+  };
   return (
     <div className="flex justify-center mt-10">
       <form onSubmit={handleSubmit} className="space-y-4 max-w-xl w-full bg-white p-6 rounded shadow">
@@ -169,9 +176,8 @@ const param = useParams();
   ))}
 </select>
 
-
-        <div>
-          <label className="block mb-1 font-medium">Hình ảnh</label>
+<div>
+          <label className="block mb-1 font-medium">Ảnh sản phẩm</label>
           <input
             type="file"
             name="image"
@@ -179,8 +185,12 @@ const param = useParams();
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
           />
-          {formData.image && (
-            <img src={formData.image} alt="Preview" className="w-32 h-32 object-cover rounded mt-2" />
+          {imagePreview && (
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="w-32 h-32 object-cover rounded mt-2"
+            />
           )}
         </div>
 
