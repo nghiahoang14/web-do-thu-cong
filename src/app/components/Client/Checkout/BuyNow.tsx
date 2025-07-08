@@ -31,7 +31,7 @@ export const BuyNow =(props:{product:any, quantity?: number,title:string})=>{
          
              <button onClick={handleBuyNow} className={`cursor-pointer ${
           user
-            ? "bg-blue-600 text-white hover:bg-blue-500"
+            ? " text-white "
             : " cursor-not-allowed"
         }`}>{title}</button>
             
