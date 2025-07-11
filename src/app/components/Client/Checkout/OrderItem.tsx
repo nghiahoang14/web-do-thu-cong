@@ -45,7 +45,7 @@ export const OrderItem = ({
         <>
           
 <ReviewForm orderId={orderId} item={item}/>
-          {/* View + Buy again */}
+        
           <div className="flex gap-4 px-[15px] pb-2 justify-end">
             <Link
               href={isDeleted ? "#" : `/Client/Product/${item.product_id?._id}`}
@@ -65,7 +65,7 @@ export const OrderItem = ({
                   : "text-blue-600"
               }`}
             >
-              <BuyNow title="Mua lại" product={{ ...item.product_id }} />
+              <BuyNow title="Mua lại" className="!text-blue-600" product={{ ...item.product_id }} />
             </div>
           </div>
         </>

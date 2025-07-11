@@ -31,7 +31,7 @@ export const CartSummary = () => {
         <p className="text-xs text-gray-500 mb-4 leading-snug">
           Phí vận chuyển sẽ được tính ở trang thanh toán.
           <br />
-          Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.
+         
         </p>
 
       

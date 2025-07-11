@@ -2,13 +2,14 @@
 
 import { getCategories } from "@/services/api/admin/category.api";
 import { createProduct } from "@/services/api/admin/products.api";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const CreateProduct = () => {
-    const router=useRouter();
-    const [imageFile, setImageFile]   = useState<File | null>(null);  
-  const [imagePreview, setImagePreview] = useState<string>("")
+  const router = useRouter();
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
+
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -17,17 +18,15 @@ export const CreateProduct = () => {
     image: "",
     stock: 0,
     status: "active",
-    rating: {
-      rate: 0,
-      count: 0,
-    },
   });
- const [categories, setCategories] = useState<any[]>([])
+
+  const [categories, setCategories] = useState<any[]>([]);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await getCategories();
-        setCategories(res.data); 
+        setCategories(res.data);
       } catch (err) {
         console.error("Không thể lấy danh mục", err);
       }
@@ -35,36 +34,28 @@ export const CreateProduct = () => {
     fetchCategories();
   }, []);
 
-    
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
 
     if (name === "image" && files && files[0]) {
-      setImageFile(files[0]);                                 // lưu file
-      setImagePreview(URL.createObjectURL(files[0]));         // tạo preview
-    } else if (name === "rate" || name === "count") {
-      setFormData((prev) => ({
-        ...prev,
-        rating: { ...prev.rating, [name]: value },
-      }));
+      setImageFile(files[0]);
+      setImagePreview(URL.createObjectURL(files[0]));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!imageFile) {                
+    if (!imageFile) {
       alert("Vui lòng chọn hình ảnh!");
       return;
     }
 
     try {
-      /* Tạo FormData */
       const fd = new FormData();
       fd.append("title", formData.title);
       fd.append("price", formData.price);
@@ -72,11 +63,7 @@ export const CreateProduct = () => {
       fd.append("category", formData.category);
       fd.append("stock", String(formData.stock));
       fd.append("status", formData.status);
-      fd.append("rate", String(formData.rating.rate));
-      fd.append("count", String(formData.rating.count));
-      fd.append("image", imageFile);             
-
-      
+      fd.append("image", imageFile); 
       await createProduct(fd);
 
       alert("Tạo sản phẩm thành công!");
@@ -89,7 +76,10 @@ export const CreateProduct = () => {
 
   return (
     <div className="flex justify-center mt-10">
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-xl w-full bg-white p-6 rounded shadow">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 max-w-xl w-full bg-white p-6 rounded shadow"
+      >
         <h2 className="text-2xl font-bold text-center mb-4">Thêm sản phẩm</h2>
 
         <div>
@@ -138,7 +128,7 @@ export const CreateProduct = () => {
             required
           >
             <option value="">-- Chọn danh mục --</option>
-            {categories.map((cat:any) => (
+            {categories.map((cat: any) => (
               <option key={cat._id} value={cat._id}>
                 {cat.name}
               </option>
@@ -146,7 +136,7 @@ export const CreateProduct = () => {
           </select>
         </div>
 
-       <div>
+        <div>
           <label className="block mb-1 font-medium">Hình ảnh</label>
           <input
             type="file"
@@ -190,38 +180,6 @@ export const CreateProduct = () => {
             <option value="out_of_stock">Hết hàng</option>
           </select>
         </div>
-
-        <div>
-  <label className="block mb-1 font-medium">Đánh giá sản phẩm</label>
-  <div className="grid grid-cols-2 gap-4">
-    <div>
-      <label className="block text-sm mb-1">Điểm đánh giá (rate)</label>
-      <input
-        type="number"
-        name="rate"
-        value={formData.rating.rate}
-        onChange={handleChange}
-        placeholder="VD: 4.5"
-        className="w-full px-3 py-2 border rounded"
-        step="0.1"
-        min="0"
-        max="5"
-      />
-    </div>
-    <div>
-      <label className="block text-sm mb-1">Số lượt đánh giá (count)</label>
-      <input
-        type="number"
-        name="count"
-        value={formData.rating.count}
-        onChange={handleChange}
-        placeholder="VD: 100"
-        className="w-full px-3 py-2 border rounded"
-        min="0"
-      />
-    </div>
-  </div>
-</div>
 
         <button
           type="submit"

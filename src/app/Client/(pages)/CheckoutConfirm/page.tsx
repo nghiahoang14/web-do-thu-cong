@@ -59,9 +59,9 @@ console.log(id);
           </div>
           <div>
             <p className="text-[20px] font-[700]">Cảm ơn bạn đã đặt hàng</p>
-            <p>
+            {/* <p>
               {`Một email xác nhận đã được gửi tới ${user?.email}. Xin vui lòng kiểm tra email của bạn`}
-            </p>
+            </p> */}
           </div>
         </div>
         <div className="flex items-center justify-center mt-[100px] gap-[30px] ">

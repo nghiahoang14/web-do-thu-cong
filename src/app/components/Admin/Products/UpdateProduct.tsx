@@ -3,14 +3,9 @@
 import { useState, useEffect } from "react";
 import { getCategories } from "@/services/api/admin/category.api";
 import { getProductById, updateProduct } from "@/services/api/admin/products.api";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
-export const UpdateProduct = (
-
-) => {
-   
-    
+export const UpdateProduct = () => {
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -19,78 +14,65 @@ export const UpdateProduct = (
     image: "",
     stock: "",
     status: "active",
-    rating: {
-      rate: "",
-      count: "",
-    },
   });
-const param = useParams();
-    const id=param.id;
-      const router = useRouter();
+
+  const param = useParams();
+  const id = param.id as string;
+  const router = useRouter();
+
   const [product, setProduct] = useState<any>(null);
-   const [categories, setCategories] = useState<any[]>([])
-    const [imageFile, setImageFile] = useState<File | null>(null);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
-    useEffect(() => {
+
+  useEffect(() => {
     const fetchProduct = async () => {
       try {
-         const res = await getProductById(id as string);
+        const res = await getProductById(id);
         setProduct(res.data);
-       console.log(res)
       } catch (error) {
         console.error("Lỗi khi lấy sản phẩm:", error);
         alert("Không tìm thấy sản phẩm");
         router.push("/Admin/Products");
-      } 
+      }
     };
- const fetchCategories = async () => {
+
+    const fetchCategories = async () => {
       try {
         const res = await getCategories();
-        setCategories(res.data); 
+        setCategories(res.data);
       } catch (err) {
         console.error("Không thể lấy danh mục", err);
       }
     };
+
     fetchCategories();
-    if (id) {
-      fetchProduct();
-    }
+    if (id) fetchProduct();
   }, [id]);
-    
+
   useEffect(() => {
-    if (product   && categories.length > 0) {
-      
+    if (product && categories.length > 0) {
       setFormData({
         title: product.title || "",
         price: product.price?.toString() || "",
         description: product.description || "",
-        category:  product.category?._id  || "",
+        category: product.category?._id || "",
         image: product.image || "",
         stock: product.stock?.toString() || "",
         status: product.status || "active",
-        rating: {
-          rate: product.rating?.rate?.toString() || "",
-          count: product.rating?.count?.toString() || "",
-        },
-       
       });
-       setImagePreview(product.image);
+      setImagePreview(product.image);
     }
-  }, [product,categories]);
+  }, [product, categories]);
 
- const handleChange = (
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
 
     if (name === "image" && files && files[0]) {
-      setImageFile(files[0]);                         
-      setImagePreview(URL.createObjectURL(files[0])); 
-    } else if (name === "rate" || name === "count") {
-      setFormData((prev) => ({
-        ...prev,
-        rating: { ...prev.rating, [name]: value },
-      }));
+      setImageFile(files[0]);
+      setImagePreview(URL.createObjectURL(files[0]));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -108,13 +90,9 @@ const param = useParams();
       fd.append("category", formData.category);
       fd.append("stock", formData.stock);
       fd.append("status", formData.status);
-      fd.append("rate", formData.rating.rate);
-      fd.append("count", formData.rating.count);
-
-  
       if (imageFile) fd.append("image", imageFile);
 
-      await updateProduct(id as string, fd);
+      await updateProduct(id, fd);
 
       alert("Cập nhật sản phẩm thành công!");
       router.push("/Admin/Products");
@@ -123,6 +101,7 @@ const param = useParams();
       alert("Cập nhật sản phẩm thất bại.");
     }
   };
+
   return (
     <div className="flex justify-center mt-10">
       <form onSubmit={handleSubmit} className="space-y-4 max-w-xl w-full bg-white p-6 rounded shadow">
@@ -161,22 +140,25 @@ const param = useParams();
           />
         </div>
 
-        <select
-  name="category"
-   required
-  value={formData.category}
-  onChange={handleChange}
-  className="w-full px-3 py-2 border rounded"
->
-  <option value="">-- Chọn danh mục --</option>
-  {categories.map((cat:any) => (
-    <option key={cat._id} value={cat._id}>
-      {cat.name}
-    </option>
-  ))}
-</select>
+        <div>
+          <label className="block mb-1 font-medium">Danh mục</label>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded"
+            required
+          >
+            <option value="">-- Chọn danh mục --</option>
+            {categories.map((cat: any) => (
+              <option key={cat._id} value={cat._id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-<div>
+        <div>
           <label className="block mb-1 font-medium">Ảnh sản phẩm</label>
           <input
             type="file"
@@ -217,32 +199,6 @@ const param = useParams();
             <option value="inactive">Không hoạt động</option>
             <option value="out_of_stock">Hết hàng</option>
           </select>
-        </div>
-
-        <div>
-          <label className="block mb-1 font-medium">Đánh giá</label>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm mb-1">Điểm đánh giá (rate)</label>
-              <input
-                type="text"
-                name="rate"
-                value={formData.rating.rate}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
-              />
-            </div>
-            <div>
-              <label className="block text-sm mb-1">Số lượt đánh giá (count)</label>
-              <input
-                type="text"
-                name="count"
-                value={formData.rating.count}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
-              />
-            </div>
-          </div>
         </div>
 
         <button

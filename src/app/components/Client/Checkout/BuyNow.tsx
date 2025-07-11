@@ -1,13 +1,14 @@
 "use client"
 import { RootState } from "@/redux/store";
+
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 
 
-export const BuyNow =(props:{product:any, quantity?: number,title:string})=>{
+export const BuyNow =(props:{product:any, quantity?: number,title:string,className?:string})=>{
      const router = useRouter();
-    const {product,quantity,title}=props;
+    const {product,quantity,title,className}=props;
     console.log(product.title)
     const user = useSelector((state: RootState) => state.auth.user);
     const handleBuyNow = () => {
@@ -29,11 +30,11 @@ export const BuyNow =(props:{product:any, quantity?: number,title:string})=>{
     return(
         <>
          
-             <button onClick={handleBuyNow} className={`cursor-pointer ${
+             <button onClick={handleBuyNow} className={`cursor-pointer ${className} ${
           user
             ? " text-white "
             : " cursor-not-allowed"
-        }`}>{title}</button>
+        } `}>{title}</button>
             
         </>
     )

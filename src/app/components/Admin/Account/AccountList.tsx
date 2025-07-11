@@ -83,7 +83,7 @@ export const AccountList = () => {
               <th className="px-4 py-2 border">#</th>
               <th className="px-4 py-2 border">Tên</th>
               <th className="px-4 py-2 border">Email</th>
-               <th className="px-4 py-2 border">Mật khẩu</th>
+               
               <th className="px-4 py-2 border">Trạng thái</th>
               <th className="px-4 py-2 border">Thao tác</th>
             </tr>
@@ -95,7 +95,7 @@ export const AccountList = () => {
                 <td className="px-4 py-2 border">{idx + 1}</td>
                 <td className="px-4 py-2 border">{acc.name}</td>
                 <td className="px-4 py-2 border">{acc.email}</td>
-                <td className="px-4 py-2 border break-words whitespace-normal max-w-[200px]">{acc.password}</td>
+               
                 <td className="px-4 py-2 border capitalize">
                   <span
                     className={`px-2 py-1 text-sm rounded ${

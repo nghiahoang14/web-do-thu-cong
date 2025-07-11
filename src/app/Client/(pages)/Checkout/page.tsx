@@ -40,18 +40,18 @@ const Router=useRouter();
   }, [pathname, cartItems]);                        
 
   
-//   useEffect(() => {
-//   if (pathname === "/Client/Checkout" && orderItems.length > 0 ) {
+  useEffect(() => {
+  if (pathname === "/Client/Checkout" && orderItems.length > 0 ) {
 
-//     localStorage.removeItem("buyNowItem");
-//   }
-// }, [orderItems,pathname]);
+    localStorage.removeItem("buyNowItem");
+  }
+}, [orderItems,pathname]);
 useEffect(() => {
   const handleRouteChange = () => {
     const pathname = window.location.pathname;
     if (pathname !== "/Client/Checkout") {
       localStorage.removeItem("buyNowItem");
-      sessionStorage.removeItem("hasConsumedBuyNow");
+     
     }
   };
 

@@ -1,7 +1,6 @@
 "use client";
 import { RootState } from "@/redux/store";
-import axios from "axios";
-import Link from "next/link";
+
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { OrderItem } from "./OrderItem";
