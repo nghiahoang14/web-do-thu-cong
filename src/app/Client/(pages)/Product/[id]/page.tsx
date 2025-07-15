@@ -2,9 +2,9 @@ import { ProductDetail } from "@/app/components/Client/Products/ProductDetail";
 import { getProductById } from "@/services/api/client/product.api";
 
 export default async function ProductDetailPage(
-props: { params: { id: string } }
+{ params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } =  props.params;
+ const { id } = await params;
   let data: any = null;
 
   try {

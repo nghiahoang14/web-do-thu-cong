@@ -3,9 +3,9 @@ import { getProducts } from "@/services/api/admin/products.api";
 import { getCategories } from "@/services/api/admin/category.api";
 import { CategoryDetail } from "@/app/components/Client/Category/CategoryDetail";
 
-export default async function CategoryDetailPage(props: { params: { id: string } }) {
+export default async function CategoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   
-  const { id } =  props.params;
+const { id } = await params;
 
   let dataCate: any[] = [];
   let dataProduct: any[] = [];
