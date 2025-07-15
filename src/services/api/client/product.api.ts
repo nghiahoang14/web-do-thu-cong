@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://qldtc-uuuc.vercel.app/products";
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 export const getProducts = async () => {
   const res = await axios.get(`${API_BASE_URL}`);
   return res.data; // -> { message, data }

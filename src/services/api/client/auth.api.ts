@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://qldtc-uuuc.vercel.app/auth";
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth`;
 
 // Đăng ký tài khoản
 export const register = async (formData: any) => {

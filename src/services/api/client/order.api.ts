@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://qldtc-uuuc.vercel.app/order";
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/order`;
 
 // 🛒 Tạo đơn hàng mới
 export const createOrder = async (payload: {

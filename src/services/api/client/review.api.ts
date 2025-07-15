@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://qldtc-uuuc.vercel.app/reviews";
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/reviews`;
+console.log("API_BASE_URL:", API_BASE_URL);
 
 // Tạo đánh giá mới
 export const createReview = async (data: {
@@ -11,6 +12,7 @@ export const createReview = async (data: {
   order: string;
 }) => {
   const res = await axios.post(`${API_BASE_URL}`, data);
+
   return res.data;
 };
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://qldtc-uuuc.vercel.app/admin/reviews";
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/admin/reviews`;
 
 // Get all review
 export const getReviews = async () => {
