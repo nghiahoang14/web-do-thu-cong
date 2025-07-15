@@ -4,7 +4,7 @@ import { getProductById } from "@/services/api/client/product.api";
 export default async function ProductDetailPage(
 props: { params: { id: string } }
 ) {
-  const { id } = await props.params;
+  const { id } =  props.params;
   let data: any = null;
 
   try {

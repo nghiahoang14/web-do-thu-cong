@@ -5,7 +5,7 @@ import { CategoryDetail } from "@/app/components/Client/Category/CategoryDetail"
 
 export default async function CategoryDetailPage(props: { params: { id: string } }) {
   
-  const { id } = await props.params;
+  const { id } =  props.params;
 
   let dataCate: any[] = [];
   let dataProduct: any[] = [];
