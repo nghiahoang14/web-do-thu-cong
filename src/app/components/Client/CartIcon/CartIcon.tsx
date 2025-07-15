@@ -53,7 +53,9 @@ const items = Array.isArray(cartItems) ? cartItems : [];
           {cartCount}
         </div>
         {isOpen && (
-          <div className="absolute rounded-[6px] shadow overflow-hidden  top-full right-[0px] bg-white max-h-[220px] min-w-[350px]  overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          <div className="absolute rounded-[6px] shadow overflow-hidden top-full right-0 bg-white 
+               max-h-[220px] min-w-[300px] w-[85vw] sm:min-w-[300px] sm:w-[350px] 
+               overflow-y-auto z-50" onClick={(e) => e.stopPropagation()}>
             {/* <h3 className="text-[20px] font-[500] px-4 py-4">Giỏ hàng</h3>
             <div className="h-[1px] bg-[#ddd]"></div> */}
             {cartCount <= 0 ? (

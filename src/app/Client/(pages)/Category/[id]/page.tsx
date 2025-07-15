@@ -1,37 +1,38 @@
-"use client"
-import { ProductList } from "@/app/components/Client/Products/ProductList";
-import { CategoryMenu } from "@/app/components/Client/Category/CategoryMenu";
-import { Filter } from "@/app/components/Client/Filter/Filter";
-
 import { Title } from "@/app/components/Client/Title/Title";
+import { getProducts } from "@/services/api/admin/products.api";
+import { getCategories } from "@/services/api/admin/category.api";
+import { CategoryDetail } from "@/app/components/Client/Category/CategoryDetail";
 
-import { useParams } from "next/navigation";
-import {  useState } from "react";
-
-export default function CategoryDetailPage() {
-     const params = useParams();
-  const id = params.id;
-  console.log(typeof id);
- const [sortOption, setSortOption] = useState("default");
-
+export default async function CategoryDetailPage(props: { params: { id: string } }) {
   
+  const { id } = await props.params;
+
+  let dataCate: any[] = [];
+  let dataProduct: any[] = [];
+
+  try {
+    const productsRes = await getProducts();
+    const categoriesRes = await getCategories();
+    dataCate = categoriesRes.data;
+
+    dataProduct = productsRes.data.filter((product: any) => {
+      const cateId = typeof product.category === "string"
+        ? product.category
+        : product.category?._id;
+      return cateId === id;
+    });
+  } catch (err: any) {
+    console.error("Lỗi fetch danh mục hoặc sản phẩm:", err);
+  }
+
   return (
-      <div className="">
-        <Title title="Sản phẩm" />
-        <div className="flex justify-end">
-          <Filter onSortChange={setSortOption}/>
-        </div>
-         <div className="flex items-start gap-[50px]">
-        <CategoryMenu />
-        <ProductList
-          filterType="all"
-          href=""
-          className=""
-          sortOption={sortOption}
-          showMore={false}
-          categoryId={id}
-        />
-       </div>
-      </div>
-  )
+    <div className="">
+      <Title title="Sản phẩm" />
+      <CategoryDetail
+        products={dataProduct}
+        categoryId={id}
+        categories={dataCate}
+      />
+    </div>
+  );
 }

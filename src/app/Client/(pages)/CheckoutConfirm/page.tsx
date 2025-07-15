@@ -49,36 +49,39 @@ console.log(id);
 
 
   return (
-    <div>
-      <div className="mt-[30px]">
-        <Logo />
-      </div>
-      <div className="flex items-center gap-[30px] mt-[30px] ">
-          <div className="rounded-full border-2 border-green-400 p-3">
-            <CheckIcon className="text-green-500" fontSize="large" />
-          </div>
-          <div>
-            <p className="text-[20px] font-[700]">Cảm ơn bạn đã đặt hàng</p>
-            {/* <p>
-              {`Một email xác nhận đã được gửi tới ${user?.email}. Xin vui lòng kiểm tra email của bạn`}
-            </p> */}
-          </div>
-        </div>
-        <div className="flex items-center justify-center mt-[100px] gap-[30px] ">
-           <Link
-          href="/Client"
-          className=" text-center border border-black text-black py-2 px-3 rounded hover:bg-gray-100 transition"
-        >
-          Tiếp tục mua hàng
-        </Link>
-
-        <Link
-          href={`/Client/CheckoutDetail?id=${id}`}
-          className="  text-center bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded font-medium transition"
-        >
-         Chi tiết đơn hàng
-        </Link>
-        </div>
+  <div className="px-4 sm:px-10 py-6">
+    <div className="mt-[30px]">
+      <Logo />
     </div>
-  );
+
+    <div className=" justify-center flex flex-col sm:flex-row items-center gap-[20px] mt-[30px]">
+      <div className="rounded-full border-2 border-green-400 p-3">
+        <CheckIcon className="text-green-500" fontSize="large" />
+      </div>                                    
+      <div className="text-center sm:text-left">
+        <p className="text-[20px] font-[700]">Cảm ơn bạn đã đặt hàng</p>
+        {/* <p>
+          {`Một email xác nhận đã được gửi tới ${user?.email}. Xin vui lòng kiểm tra email của bạn`}
+        </p> */}
+      </div>
+    </div>
+
+    <div className="flex flex-col sm:flex-row items-center justify-center mt-[100px] gap-[20px]">
+      <Link
+        href="/Client"
+        className="text-center border border-black text-black py-2 px-4 rounded hover:bg-gray-100 transition w-full sm:w-auto"
+      >
+        Tiếp tục mua hàng
+      </Link>
+
+      <Link
+        href={`/Client/CheckoutDetail?id=${id}`}
+        className="text-center bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded font-medium transition w-full sm:w-auto"
+      >
+        Chi tiết đơn hàng
+      </Link>
+    </div>
+  </div>
+);
+
 }

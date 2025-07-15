@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3001/category";
+const API_BASE_URL = "https://qldtc-uuuc.vercel.app/category";
 
 // Lấy tất cả danh mục
 export const getCategories = async () => {

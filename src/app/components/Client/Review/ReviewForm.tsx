@@ -1,3 +1,4 @@
+"use client"
 import { RootState } from "@/redux/store";
 import { createReview } from "@/services/api/client/review.api";
 

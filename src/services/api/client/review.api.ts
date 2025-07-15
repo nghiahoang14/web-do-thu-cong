@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3001/reviews";
+const API_BASE_URL = "https://qldtc-uuuc.vercel.app/reviews";
 
 // Tạo đánh giá mới
 export const createReview = async (data: {

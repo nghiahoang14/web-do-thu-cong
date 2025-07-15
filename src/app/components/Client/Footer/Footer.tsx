@@ -3,78 +3,129 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
-export const Footer = ()=>{
-    return (
-        <>
-        <div className="bg-[#dcdacb] py-[50px]">
-            <div className="container mx-auto">
-                <div className="flex items-center justify-between">
-                   <div className="flex items-center gap-[10px]">
-                    <LocalShippingOutlinedIcon fontSize="large"/>
-                    <p className='font-[600] text-[20px] w-[159px]'>FREESHIPPING & RETURN POLICY</p>
-                   </div>
-                   <div className="flex items-center gap-[10px]">
-                   <PersonOutlineOutlinedIcon fontSize="large"/>
-                    <p className='font-[600] text-[20px] w-[159px]'>90 DAYS WARRANTY</p>
-                   </div>
-                   <div className="flex items-center gap-[10px]">
-                     <Inventory2OutlinedIcon fontSize="large"/>
-                     <p className='font-[600] text-[20px] w-[192px]'>NEW PRODUCTS
-                         OFFERING & DEALS</p>
-                   </div>
-                </div>
-                <div className="h-[1px] bg-[#aaa] my-[70px]" />
-
-                <div className="flex items-center gap-[400px] ">
-                   <div className=''>
-                      <div className=''>
-                        <h3 className='font-[600] text-[20px]'>Address</h3>
-                        <p> Peakview Tower, 36 Hoang Cau, Dong Da, Hanoi</p>
-                      </div>
-                      <div className=''>
-                        <h3  className='font-[600] text-[20px]'>Contact</h3>
-                        <p>0967827698 - 0947282986</p>
-                      </div>
-                      <div className=''>
-                        <h3 className='font-[600] text-[20px]'>Email</h3>
-                        <p>vietquilt.com@gmail.com</p>
-                      </div>
-                      <div className='mt-[20px] flex items-center gap-[25px]'>
-                        <div className="h-[40px] w-[40px] text-blue-600 flex items-center justify-center cursor-pointer">
-                           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"/></svg>
-                        </div>
-                       <div className='h-[40px] w-[40px] text-red-600 flex items-center justify-center cursor-pointer'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 576 512"><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg>
-                      </div>
-                      <div className='h-[35px] w-[35px] flex items-center justify-center cursor-pointer'>
-                       <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" viewBox="0 0 448 512"><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/></svg>
-                      </div>
-                      <div className='h-[35px] w-[35px] text-[#E1306C] cursor-pointer'>
-                        <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-                      </div>
-                      </div>
-                      
-                   </div>
-                   <div className='w-full '>
-                    <h3 className='font-[600] text-[32px]'>Leave us a message</h3>
-                    <div className=''>
-                        <label htmlFor="name">Name</label>
-                        <input type="text" name="name" id="name" className="rounded-[6px] px-[16px] my-[10px] h-[30px] w-full font-[600] text-[14px] outline-none bg-white" />
-                    </div>
-                    <div className=''>
-                        <label htmlFor="email">Email</label>
-                        <input type="text" name="email" id="email" className="rounded-[6px] px-[16px] my-[10px]  h-[30px] w-full font-[600] text-[14px] outline-none bg-white"/>
-                    </div>
-                    <div className=''>
-                        <label htmlFor="phone">Phone number</label>
-                        <input type="text" name="phone" id="phone" className="rounded-[6px] px-[16px] my-[10px]  h-[30px] w-full font-[600] text-[14px] outline-none bg-white"/>
-                    </div>
-                   
-                    <button className='rounded-[6px] text-[16px] border border-[black] py-[10px] px-[16px] mt-[20px] hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer'> Send Message</button>
-                   </div>
-                </div>
-            </div>
+export const Footer = () => {
+  return (
+    <div className="bg-[#dcdacb] py-[50px] px-4 sm:px-6 md:px-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Top Info */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="flex items-start md:items-center gap-3">
+            <LocalShippingOutlinedIcon fontSize="large" />
+            <p className="font-semibold text-[18px] md:text-[20px] max-w-[200px]">
+              FREESHIPPING & RETURN POLICY
+            </p>
+          </div>
+          <div className="flex items-start md:items-center gap-3">
+            <PersonOutlineOutlinedIcon fontSize="large" />
+            <p className="font-semibold text-[18px] md:text-[20px] max-w-[200px]">
+              90 DAYS WARRANTY
+            </p>
+          </div>
+          <div className="flex items-start md:items-center gap-3">
+            <Inventory2OutlinedIcon fontSize="large" />
+            <p className="font-semibold text-[18px] md:text-[20px] max-w-[220px]">
+              NEW PRODUCTS OFFERING & DEALS
+            </p>
+          </div>
         </div>
-        </>
-    )
-}
+
+        <div className="h-[1px] bg-[#aaa] my-[50px]" />
+
+        {/* Contact + Form */}
+        <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gap-[100px]">
+          {/* Left contact */}
+          <div className="flex-1">
+            <div className="mb-4">
+              <h3 className="font-semibold text-[20px]">Address</h3>
+              <p>Peakview Tower, 36 Hoang Cau, Dong Da, Hanoi</p>
+            </div>
+            <div className="mb-4">
+              <h3 className="font-semibold text-[20px]">Contact</h3>
+              <p>0967827698 - 0947282986</p>
+            </div>
+            <div className="mb-4">
+              <h3 className="font-semibold text-[20px]">Email</h3>
+              <p>vietquilt.com@gmail.com</p>
+            </div>
+
+            {/* Social icons */}
+            <div className="mt-4 flex items-center gap-5">
+              {/* Facebook */}
+              <div className="h-[40px] w-[40px] text-blue-600 flex items-center justify-center cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 320 512" className="w-full h-full">
+                  <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35
+                  12.42-50.06 52.24-50.06H293V6.26S259.5 0 225.36
+                  0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.2V288z" />
+                </svg>
+              </div>
+              {/* YouTube */}
+              <div className="h-[40px] w-[40px] text-red-600 flex items-center justify-center cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 576 512" className="w-full h-full">
+                  <path d="M549.655 124.083c-6.281-23.646-24.812-42.193-48.295-48.504C458.782 64 288 64 288
+                  64S117.218 64 74.64 75.579c-23.483 6.311-42.014 24.858-48.295 48.504C16
+                  168.291 16 256 16 256s0 87.709 10.345 131.917c6.281 23.646 24.812 42.193
+                  48.295 48.504C117.218 448 288 448 288 448s170.782 0 213.36-11.579c23.483-6.311
+                  42.014-24.858 48.295-48.504C560 343.709 560 256 560 256s0-87.709-10.345-131.917zM232
+                  334V178l142 78-142 78z" />
+                </svg>
+              </div>
+              {/* TikTok */}
+              <div className="h-[35px] w-[35px] flex items-center justify-center cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512" className="w-full h-full">
+                  <path d="M448,209.9c-38.8,0-74.6-13.4-103.1-35.9V349.4A162.6,162.6,0,1,1,185,188.3V278.2a74.6,74.6,0,1,0,
+                  52.2,71.2V0h88A121.2,121.2,0,0,0,327.1,22.2h0A122.2,122.2,0,0,0,381,102.4a121.4,121.4,0,0,0,67,20.1Z" />
+                </svg>
+              </div>
+              {/* Instagram */}
+              <div className="h-[35px] w-[35px] text-[#E1306C] cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512" className="w-full h-full">
+                  <path d="M224.1 141c-63.6 0-114.9 51.3-114.9
+                  114.9s51.3 114.9 114.9 114.9S339 319.5
+                  339 255.9 287.7 141 224.1 141zm0
+                  189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7
+                  74.7-74.7 74.7 33.5 74.7 74.7-33.6
+                  74.7-74.7 74.7zm146.4-194.3c0
+                  14.9-12 26.8-26.8 26.8-14.9
+                  0-26.8-12-26.8-26.8s12-26.8
+                  26.8-26.8 26.8 12 26.8 26.8zm76.1
+                  27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9
+                  0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7
+                  35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9
+                  93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8
+                  388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7
+                  9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6
+                  132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Right form */}
+          <div className="flex-1 w-full">
+            <h3 className="font-semibold text-[24px] mb-4">Leave us a message</h3>
+            <form className="space-y-4">
+              <div>
+                <label htmlFor="name" className="block mb-1">Name</label>
+                <input type="text" id="name" className="w-full h-[40px] px-4 rounded-md bg-white text-sm font-semibold outline-none" />
+              </div>
+              <div>
+                <label htmlFor="email" className="block mb-1">Email</label>
+                <input type="email" id="email" className="w-full h-[40px] px-4 rounded-md bg-white text-sm font-semibold outline-none" />
+              </div>
+              <div>
+                <label htmlFor="phone" className="block mb-1">Phone number</label>
+                <input type="text" id="phone" className="w-full h-[40px] px-4 rounded-md bg-white text-sm font-semibold outline-none" />
+              </div>
+              <button
+                type="submit"
+                className="border border-black text-black hover:bg-black hover:text-white transition-colors duration-300 px-6 py-2 rounded-md mt-2"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

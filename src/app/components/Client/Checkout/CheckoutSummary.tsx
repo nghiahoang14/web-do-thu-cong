@@ -30,7 +30,7 @@ const shippingFee = shippingMethod === "free" ? 0 : 40000;
                     <h3 className="text-[20px] font-[700] px-[20px] py-[10px] ">{`Đơn hàng (${orderItems.length} sản phẩm)`}</h3>
                   </div>
         
-                  <div className=" border-b border-[#D9D9D9]  w-fit">
+                  <div className=" border-b border-[#D9D9D9]  w-full">
                     {orderItems.map((item:any) => (
                       <CartItem
                         key={item._id}

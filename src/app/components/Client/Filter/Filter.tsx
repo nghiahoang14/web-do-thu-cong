@@ -15,7 +15,7 @@ export const Filter = (props:{onSortChange:any}) => {
 };
   return (
     <>
-      <div className="relative inline-block text-left">
+      <div className="relative inline-block text-left px-2 sm:px-2">
         <div>
           <button
             type="button"

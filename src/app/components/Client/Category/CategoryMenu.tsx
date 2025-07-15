@@ -1,36 +1,35 @@
+"use client";
+
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { getCategories } from "@/services/api/client/category.api";
+import { usePathname } from "next/navigation";
 
-export const CategoryMenu = () => {
-  const [category, setCategory] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await getCategories(); 
-        setCategory(res.data); 
-      } catch (err: any) {
-        console.error("Lỗi khi gọi API danh mục:", err.response?.data?.message);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+export const CategoryMenu = ({ categories }: { categories: any[] }) => {
+  const pathname = usePathname();
 
   return (
-    <div className="w-[20%]">
+    <div
+      className="w-[120px] sm:w-[150px] md:w-[25%] lg:w-[20%] px-2 shrink-0"
+    >
       <ul>
-        {category.map((item: any, index) => (
-          <div key={index}>
-            <li className="cursor-pointer hover:text-red-500 py-[10px] text-[18px] font-[500]">
-              <Link href={`/Client/Category/${item._id}`}>{item.name}</Link>
-            </li>
-            {index < category.length - 1 && (
-              <div className="h-[1px] bg-[#ddd] w-full"></div>
-            )}
-          </div>
-        ))}
+        {categories.map((item, index) => {
+          const isActive = pathname === `/Client/Category/${item._id}`;
+
+          return (
+            <div key={item._id}>
+              <li
+                className={`py-[10px] text-[14px] sm:text-[16px] font-[500] cursor-pointer hover:text-red-500 ${
+                  isActive ? "text-red-500" : ""
+                }`}
+              >
+                <Link href={`/Client/Category/${item._id}`}>{item.name}</Link>
+              </li>
+
+              {index < categories.length - 1 && (
+                <div className="h-[1px] bg-[#ddd] w-full" />
+              )}
+            </div>
+          );
+        })}
       </ul>
     </div>
   );

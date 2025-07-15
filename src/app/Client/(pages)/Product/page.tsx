@@ -1,36 +1,31 @@
-"use client"
+
 
 import "../../../globals.css";
-import { ProductList } from "@/app/components/Client/Products/ProductList";
-
-import { Filter } from "@/app/components/Client/Filter/Filter";
 import { Title } from "@/app/components/Client/Title/Title";
-import { useState } from "react";
-import { CategoryMenu } from "@/app/components/Client/Category/CategoryMenu";
+
+import { getProducts } from "@/services/api/client/product.api";
+import { AllProduct } from "@/app/components/Client/Products/AllProduct";
+import { getCategories } from "@/services/api/client/category.api";
 
 
 
-export default function ProductPage() {
-  const [sortOption, setSortOption] = useState("default");
+export default async function ProductPage() {
+   let data: any[] = [];
+let categories: any[] = [];
+  try {
+    const res = await getProducts();
+    data = res.data;
+    const cateRes = await getCategories();
+    categories = cateRes.data;
+  } catch (err: any) {
+    console.error("Lỗi khi fetch product:", err);
+  }
 
   return (
     
       <div className="">
         <Title title="Sản phẩm" />
-        <div className="flex justify-end">
-          <Filter onSortChange={setSortOption}/>
-        </div>
-         <div className="flex items-start gap-[50px]">
-        <CategoryMenu />
-        <ProductList
-          filterType="all"
-          href=""
-          className=""
-          sortOption={sortOption}
-          showMore={false}
-        
-        />
-       </div>
+       <AllProduct data={data} categories={categories}/>
       </div>
   
    

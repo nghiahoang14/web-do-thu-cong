@@ -1,33 +1,28 @@
-
 import Link from "next/link";
 import { BuyNow } from "./BuyNow";
 import { ReviewForm } from "../Review/ReviewForm";
+
 export const OrderItem = ({
   item,
   id,
   mode,
   isLast,
-  orderId
+  orderId,
 }: {
   item: any;
   id: string;
   mode?: string;
   isLast?: boolean;
-  orderId:string
+  orderId: string;
 }) => {
   const isDeleted = item.product_id?.deleted;
- 
-  
-  console.log(item);
-
- 
-
- 
 
   return (
     <>
-      <div className="flex items-center gap-2 py-[15px] px-[15px]">
-        <div className="relative border border-[#ddd] rounded w-[60px] h-[60px]">
+     
+      <div className="flex sm:flex-row items-start sm:items-center gap-3 sm:gap-6 py-4 px-4">
+        
+        <div className="relative border border-[#ddd] rounded w-[60px] h-[60px] shrink-0">
           <img
             src={item.image}
             className="object-cover w-full h-full"
@@ -37,19 +32,30 @@ export const OrderItem = ({
             {item.quantity}
           </div>
         </div>
-        <div className="flex-1">{item.title}</div>
-        <div>{item.price.toLocaleString("vi-VN")}₫</div>
+
+      
+        <div className="flex-1 w-full flex flex-col sm:flex-row sm:items-center justify-between">
+          <div className="text-[18px] font-[600] text-gray-800 mb-1 sm:mb-0">
+            {item.title}
+          </div>
+          <div className="text-[16px] text-red-500 font-semibold">
+            {item.price.toLocaleString("vi-VN")}₫
+          </div>
+        </div>
+        
       </div>
 
+     
       {mode === "history" && (
         <>
-          
-<ReviewForm orderId={orderId} item={item}/>
-        
-          <div className="flex gap-4 px-[15px] pb-2 justify-end">
+          <div className="px-4">
+            <ReviewForm orderId={orderId} item={item} />
+          </div>
+
+          <div className="flex  sm:flex-row gap-2 sm:gap-4 px-4 pb-2 justify-end">
             <Link
               href={isDeleted ? "#" : `/Client/Product/${item.product_id?._id}`}
-              className={`font-semibold border-r pr-4 ${
+              className={`font-semibold border-r pr-[8px] sm:border-0 sm:border-r sm:pr-4 ${
                 isDeleted
                   ? "text-gray-400 cursor-not-allowed pointer-events-none"
                   : "text-blue-600"
@@ -65,13 +71,18 @@ export const OrderItem = ({
                   : "text-blue-600"
               }`}
             >
-              <BuyNow title="Mua lại" className="!text-blue-600" product={{ ...item.product_id }} />
+              <BuyNow
+                title="Mua lại"
+                className="!text-blue-600"
+                product={{ ...item.product_id }}
+              />
             </div>
           </div>
         </>
       )}
 
-      {!isLast && <div className="border-b border-gray-200 my-[15px]" />}
+      
+      {!isLast && <div className="border-b border-gray-200 my-3" />}
     </>
   );
 };

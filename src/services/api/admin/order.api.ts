@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3001/admin/orders";
+const API_BASE_URL = "https://qldtc-uuuc.vercel.app/admin/orders";
 
 // Get all orders
 export const getOrders = async () => {

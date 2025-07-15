@@ -21,8 +21,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   return (
     <ReduxProvider>
       {!hideLayout ? <Sider /> : <div style={{ height: 0 }} />}
-      <div className="container mx-auto">
-        {!hideLayout && <Search />}
+      <div className="container mx-auto ">
+        <div className="w-full">
+          {!hideLayout && <Search />}
+        </div>
         <main>{children}</main>
       </div>
       {!hideLayout && <Footer />}

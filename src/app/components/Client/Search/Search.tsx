@@ -52,10 +52,13 @@ export const Search = () => {
 
   return (
     <>
-      <form ref={containerRef} className="bg-white  w-[75%]  mx-auto py-[15px] my-[30px] flex items-center relative"  onSubmit={(e) => {
-    e.preventDefault();
-  
-  }}>
+      <form
+  ref={containerRef}
+  className="w-[90%] sm:w-[80%] mx-auto 
+             bg-white mt-[20px] mb-[30px] pt-[30px]
+             flex items-center justify-center relative rounded-[50px]"
+  onSubmit={(e) => e.preventDefault()}
+>
         <input
           type="text"
           name="keyword"

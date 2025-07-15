@@ -1,70 +1,55 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { ProductCard } from "./ProductCard";
 import { More } from "../More/More";
 import { Navigator } from "../Navigator/Navigator";
-import { getProducts } from "@/services/api/client/product.api";
-
-
 
 const items_per_page = 12;
 
 export const ProductList = (props: {
-  filterType: string;
+  
   href: string;
   className: string;
   sortOption: string;
   showMore: boolean;
-  categoryId?: any;
+ 
+  data: any[];
 }) => {
-  const { filterType, href, className, sortOption, showMore, categoryId } = props;
+  const {
+    
+    href,
+    className,
+    sortOption,
+    showMore,
+    
+    data,
+  } = props;
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getProducts();
-        let data = res.data;
+    try {
+      let filtered = [...data];
 
-        if (filterType === "new") {
-          const now = new Date();
-          data = data.filter((p: any) => {
-            const createdAt = new Date(p.createdAt);
-            const days = (now.getTime() - createdAt.getTime()) / (1000 * 3600 * 24);
-            return days <= 30;
-          });
-        }
+      
+      
 
-        if (categoryId) {
-          data = data.filter((p:any) => {
-            const cate = p.category;
-            const cateId = typeof cate === "string" ? cate : cate?._id;
-            return cateId?.toString().trim() === categoryId.toString().trim();
-          });
-        }
+     
 
-        if (filterType === "best") {
-          data = data.filter((p: any) => p.rating.count >= 1000);
-        }
-
-        if (sortOption === "asc") {
-          data = data.sort((a:any, b:any) => a.price - b.price);
-        }
-        if (sortOption === "desc") {
-          data = data.sort((a:any, b:any) => b.price - a.price);
-        }
-
-        setProducts(data);
-        setCurrentPage(1);
-      } catch (err: any) {
-        console.error("Lỗi khi gọi API sản phẩm:", err);
-        alert(err?.response?.data?.message || "Lỗi khi tải danh sách sản phẩm.");
+      if (sortOption === "asc") {
+        filtered.sort((a: any, b: any) => a.price - b.price);
+      } else if (sortOption === "desc") {
+        filtered.sort((a: any, b: any) => b.price - a.price);
       }
-    };
 
-    fetchData();
-  }, [filterType, sortOption, categoryId]);
+      setProducts(filtered);
+      setCurrentPage(1);
+    } catch (err: any) {
+      console.error("Lỗi xử lý dữ liệu sản phẩm:", err);
+    }
+  }, [data,  sortOption]);
 
   const startIndex = (currentPage - 1) * items_per_page;
   const endIndex = startIndex + items_per_page;
@@ -74,7 +59,12 @@ export const ProductList = (props: {
   return (
     <>
       <div className="w-full">
-        <div className="grid grid-cols-4 gap-x-[20px] gap-y-[20px] mt-[15px]">
+        <div className="grid grid-cols-2
+            sm:grid-cols-2 px-2
+            md:grid-cols-3
+            lg:grid-cols-4
+            gap-x-5 gap-y-6
+            mt-4">
           {currentProducts.map((item, index) => (
             <ProductCard key={index} item={item} />
           ))}

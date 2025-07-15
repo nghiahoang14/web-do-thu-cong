@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3001/admin/category";
+const API_BASE_URL = "https://qldtc-uuuc.vercel.app/admin/category";
 
 // Get all cate
 export const getCategories = async () => {

@@ -1,28 +1,33 @@
-"use client"
 
 import "../../../globals.css";
-import { ProductList } from "@/app/components/Client/Products/ProductList";
 import { Title } from "@/app/components/Client/Title/Title";
-import { Filter } from "@/app/components/Client/Filter/Filter";
-import { useState } from "react";
+import { getProducts } from "@/services/api/client/product.api";
+import { NewProduct } from "@/app/components/Client/Products/NewProduct";
 
 
 
 
 
-export default function NewProductPage() {
-  const [sortOption, setSortOption] = useState("default");
+export default async  function NewProductPage() {
+   let data: any[] = [];
+   try {
+    const res = await getProducts();
+     data = res.data;
+
+    const now = new Date();
+    data = data.filter((p: any) => {
+      const createdAt = new Date(p.createdAt);
+      const days = (now.getTime() - createdAt.getTime()) / (1000 * 3600 * 24);
+      return days <= 30;
+    });
+  }catch(err:any){
+    console.error(" Lỗi khi fetch sản phẩm mới:", err);
+    console.log(err.response.data.message);
+  }
   return (
    <div className="">
            <Title title="Sản phẩm mới" />
-           <div className="flex justify-end">
-             <Filter onSortChange={setSortOption}/>
-           </div>
-           <div className="flex items-start gap-[50px]">
-             
-             <ProductList  filterType="new" href="" className="" sortOption={sortOption} showMore={false} />
-          
-           </div>
+          <NewProduct data={data} />
           
          </div>
   );
