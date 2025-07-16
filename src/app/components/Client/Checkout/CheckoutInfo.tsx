@@ -37,14 +37,14 @@ export const CheckoutInfo = (props: { onDataChange: (data: any) => void; showErr
   }, [name, email, phone, address, selectedProvince, selectedDistrict, selectedWard, note]);
 
   useEffect(() => {
-    fetch("http://provinces.open-api.vn/api/p/")
+    fetch("https://provinces.open-api.vn/api/p/")
       .then((res) => res.json())
       .then((data) => setProvinces(data));
   }, []);
 
   useEffect(() => {
     if (selectedProvince?.code) {
-      fetch(`http://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`)
+      fetch(`https://provinces.open-api.vn/api/p/${selectedProvince.code}?depth=2`)
         .then((res) => res.json())
         .then((data) => {
           setDistricts(data.districts || []);
@@ -57,7 +57,7 @@ export const CheckoutInfo = (props: { onDataChange: (data: any) => void; showErr
 
   useEffect(() => {
     if (selectedDistrict?.code) {
-      fetch(`http://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`)
+      fetch(`https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`)
         .then((res) => res.json())
         .then((data) => {
           setWards(data.wards || []);
